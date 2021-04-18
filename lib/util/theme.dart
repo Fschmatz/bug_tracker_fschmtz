@@ -31,7 +31,7 @@ ThemeData dark = ThemeData(
     ),
     bottomAppBarColor: Color(0xFF1A1A1B),
     bottomSheetTheme:
-        BottomSheetThemeData(modalBackgroundColor: Color(0xFF1A1A1B)));
+        BottomSheetThemeData(modalBackgroundColor: Color(0xFF232324)));
 
 class ThemeNotifier extends ChangeNotifier {
   final String key = 'valorTema';

@@ -71,6 +71,17 @@ class BugDao {
     return await db.update(table, row, where: '$columnIdBug = ?', whereArgs: [id]);
   }
 
+  Future<List<Map<String, dynamic>>> getAllByState(int state) async {
+    Database db = await instance.database;
+    return await db.rawQuery('''   
+    
+        SELECT *
+        FROM bug 
+        WHERE state=$state       
+        
+        ''');
+  }
+
   Future<int> delete(int id) async {
     Database db = await instance.database;
     return await db.delete(table, where: '$columnIdBug = ?', whereArgs: [id]);

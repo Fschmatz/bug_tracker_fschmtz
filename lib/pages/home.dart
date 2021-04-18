@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/configs/configs.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
+import 'package:bug_tracker_fschmtz/pages/doneBugs.dart';
 import 'package:bug_tracker_fschmtz/pages/newBug.dart';
 import 'package:bug_tracker_fschmtz/widgets/cardItem.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +19,18 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    getAllBugs();
+    getAllBugsNotDone();
     super.initState();
   }
 
-  Future<void> getAllBugs() async {
-    var resp = await dbBug.queryAllRows();
+  Future<void> getAllBugsNotDone() async {
+    var resp = await dbBug.getAllByState(0);
     setState(() {
       bugList = resp;
     });
   }
+
+  void refreshHome(){getAllBugsNotDone();}
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,8 @@ class _HomeState extends State<Home> {
         title: Text('BugTracker',
             style: TextStyle(
                 color: Theme.of(context).textTheme.headline6.color,
-                fontSize: 18)),
+                fontSize: 18,
+                fontWeight: FontWeight.w600)),
       ),
       body: ListView(physics: AlwaysScrollableScrollPhysics(), children: [
         ListView.separated(
@@ -59,6 +63,7 @@ class _HomeState extends State<Home> {
                   errorDescription:bugList[index]['errorDescription'],
                   note: bugList[index]['note'],
               ),
+                refreshHome: refreshHome,
               );
             }),
         const SizedBox(
@@ -76,7 +81,7 @@ class _HomeState extends State<Home> {
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => NewBug(),
                     fullscreenDialog: true,
-                  )).then((value) => getAllBugs());
+                  )).then((value) => getAllBugsNotDone());
             },
             child: Icon(
               Icons.add,
@@ -95,11 +100,16 @@ class _HomeState extends State<Home> {
             IconButton(
                 icon: Icon(
                   Icons.done_outline,
-                  size: 24,
+                  size: 22,
                   color: Theme.of(context).hintColor,
                 ),
                 onPressed: () {
-
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => DoneBugs(),
+                        fullscreenDialog: true,
+                      )).then((value) => getAllBugsNotDone());
                 }),
             IconButton(
                 icon: Icon(

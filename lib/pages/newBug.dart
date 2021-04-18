@@ -2,81 +2,100 @@ import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class NewBug extends StatelessWidget {
+class NewBug extends StatefulWidget {
+  @override
+  _NewBugState createState() => _NewBugState();
+}
+
+class _NewBugState extends State<NewBug> {
+
+  final dbBug = BugDao.instance;
+  Color selectedColor = Color(0xFFFFD600);
+
+  TextEditingController customControllerDescription = TextEditingController();
+  TextEditingController customControllerCorrectOutcome = TextEditingController();
+  TextEditingController customControllerErrorDescription = TextEditingController();
+  TextEditingController customControllerNote = TextEditingController();
+
+
+  bool isSelectedRed = false;
+  bool isSelectedOrange = false;
+  bool isSelectedYellow = false;
+  Icon iconSelected = Icon(Icons.done,size: 20,);
+
+
+  @override
+  void initState() {
+    isSelectedYellow = true;
+    super.initState();
+  }
+
+
+  void _saveBug() async {
+    Map<String, dynamic> row = {
+      BugDao.columnDescription: customControllerDescription.text,
+      BugDao.columnState: 0,
+      BugDao.columnColor : selectedColor.toString(),
+      BugDao.columnCorrectOutcome: customControllerCorrectOutcome.text,
+      BugDao.columnErrorDescription:  customControllerErrorDescription.text,
+      BugDao.columnNote: customControllerNote.text,
+    };
+    final id = await dbBug.insert(row);
+    print('id = $id');
+  }
+
+  String checkProblems() {
+    String errors = "";
+    if (customControllerDescription.text.isEmpty) {
+      errors += "Insert Description\n";
+    }
+    if (customControllerCorrectOutcome.text.isEmpty) {
+      errors += "Insert Correct Outcome\n";
+    }
+    if (customControllerErrorDescription.text.isEmpty) {
+      errors += "Insert Error Description\n";
+    }
+    return errors;
+  }
+
+  showAlertDialogErrors(BuildContext context) {
+    Widget okButton = TextButton(
+      child: Text(
+        "Ok",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      elevation: 3.0,
+      title: Text(
+        "Error",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      content: Text(
+        checkProblems(),
+        style: TextStyle(
+          fontSize: 18,
+        ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
-
-    final dbBug = BugDao.instance;
-    Color selectedColor = Color(0xFFFFD600);
-
-    TextEditingController customControllerDescription = TextEditingController();
-    TextEditingController customControllerCorrectOutcome = TextEditingController();
-    TextEditingController customControllerErrorDescription = TextEditingController();
-    TextEditingController customControllerNote = TextEditingController();
-
-    void _saveBug() async {
-      Map<String, dynamic> row = {
-        BugDao.columnDescription: customControllerDescription.text,
-        BugDao.columnState: 0,
-        BugDao.columnColor : selectedColor.toString(),
-        BugDao.columnCorrectOutcome: customControllerCorrectOutcome.text,
-        BugDao.columnErrorDescription:  customControllerErrorDescription.text,
-        BugDao.columnNote: customControllerNote.text,
-      };
-      final id = await dbBug.insert(row);
-      print('id = $id');
-    }
-
-    String checkProblems() {
-      String errors = "";
-      if (customControllerDescription.text.isEmpty) {
-        errors += "Insert Description\n";
-      }
-      if (customControllerCorrectOutcome.text.isEmpty) {
-        errors += "Insert Correct Outcome\n";
-      }
-      if (customControllerErrorDescription.text.isEmpty) {
-        errors += "Insert Error Description\n";
-      }
-      return errors;
-    }
-
-    showAlertDialogErrors(BuildContext context) {
-      Widget okButton = TextButton(
-        child: Text(
-          "Ok",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      );
-
-      AlertDialog alert = AlertDialog(
-        elevation: 3.0,
-        title: Text(
-          "Error",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        content: Text(
-          checkProblems(),
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        ),
-        actions: [
-          okButton,
-        ],
-      );
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return alert;
-        },
-      );
-    }
-
 
     return Scaffold(
         appBar: AppBar(
@@ -114,10 +133,10 @@ class NewBug extends StatelessWidget {
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
                     controller: customControllerDescription,
-                    //autofocus: true,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.notes_rounded, size: 20),
+                        prefixIcon: Icon(Icons.article_outlined, size: 20),
                         hintText: "Description",
+                        helperText: "* Required",
                         contentPadding: new EdgeInsets.symmetric(
                             vertical: 15.0, horizontal: 10.0),
                         focusedBorder: OutlineInputBorder(
@@ -136,7 +155,7 @@ class NewBug extends StatelessWidget {
                               color: Colors.grey.withOpacity(0.3),
                             ),
                             borderRadius: BorderRadius.circular(10.0))
-                       ),
+                    ),
                     style: TextStyle(
                       fontSize: 17,
                     ),
@@ -148,17 +167,17 @@ class NewBug extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        child:Row(
-                          children: [
-                            SizedBox(width: 12,),
-                            Icon(Icons.flag_outlined,color: Theme.of(context).hintColor,),
-                            SizedBox(width: 15,),
-                            Text("Priority",style:TextStyle(
-                              fontSize: 17,
-                              color: Theme.of(context).hintColor,
-                            ),)
-                          ],
-                        )
+                          child:Row(
+                            children: [
+                              SizedBox(width: 12,),
+                              Icon(Icons.flag_outlined,color: Theme.of(context).hintColor,),
+                              SizedBox(width: 15,),
+                              Text("Priority",style:TextStyle(
+                                fontSize: 17,
+                                color: Theme.of(context).hintColor,
+                              ),)
+                            ],
+                          )
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -166,51 +185,54 @@ class NewBug extends StatelessWidget {
                           MaterialButton(
                             minWidth: 20,
                             height: 35,
-                            child: Icon(
-                              Icons.color_lens_outlined,
-                              color: Colors.grey[800],
-                              size: 22,
-                            ),
+                            child: isSelectedRed ? Icon(Icons.check,size: 24,color: Colors.black87,) : SizedBox.shrink(),
                             shape: CircleBorder(),
                             elevation: 1,
                             color: Color(0xFFFF5252),
                             onPressed: () {
+                              setState(()  {
+                                isSelectedRed = true;
+                                isSelectedOrange = false;
+                                isSelectedYellow = false;
+                              });
                               selectedColor = Color(0xFFFF5252);
-                              print(" 1 ");
+                              print(" Red ");
                             },
                           ),
                           const SizedBox(width: 15,),
                           MaterialButton(
                             minWidth: 20,
                             height: 35,
-                            child: Icon(
-                              Icons.color_lens_outlined,
-                              color: Colors.grey[800],
-                              size: 22,
-                            ),
+                            child: isSelectedOrange ? Icon(Icons.check,size: 24,color: Colors.black87,) : SizedBox.shrink(),
                             shape: CircleBorder(),
                             elevation: 1,
                             color: Color(0xFFFF6E40),
                             onPressed: () {
+                              setState(() {
+                                isSelectedOrange = true;
+                                isSelectedRed = false;
+                                isSelectedYellow = false;
+                              });
                               selectedColor = Color(0xFFFF6E40);
-                              print(" 2 ");
+                              print(" Orange ");
                             },
                           ),
                           const SizedBox(width: 15,),
                           MaterialButton(
                             minWidth: 20,
                             height: 35,
-                            child: Icon(
-                              Icons.color_lens_outlined,
-                              color: Colors.grey[800],
-                              size: 22,
-                            ),
+                            child: isSelectedYellow ? Icon(Icons.check,size: 24,color: Colors.black87,) : SizedBox.shrink(),
                             shape: CircleBorder(),
                             elevation: 2,
                             color: Color(0xFFFFD600),
                             onPressed: () {
+                              setState(() {
+                                isSelectedYellow = true;
+                                isSelectedRed = false;
+                                isSelectedOrange = false;
+                              });
                               selectedColor = Color(0xFFFFD600);
-                              print(" 3 ");
+                              print(" Yellow ");
                             },
                           ),
                         ],
@@ -228,10 +250,10 @@ class NewBug extends StatelessWidget {
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
                     controller: customControllerCorrectOutcome,
-                    //autofocus: true,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.notes_rounded, size: 20),
+                        prefixIcon: Icon(Icons.article_outlined, size: 20),
                         hintText: "Correct Outcome",
+                        helperText: "* Required",
                         contentPadding: new EdgeInsets.symmetric(
                             vertical: 15.0, horizontal: 10.0),
                         focusedBorder: OutlineInputBorder(
@@ -266,10 +288,10 @@ class NewBug extends StatelessWidget {
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
                     controller: customControllerErrorDescription,
-                    //autofocus: true,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.notes_rounded, size: 20),
+                        prefixIcon: Icon(Icons.article_outlined, size: 20),
                         hintText: "Error Description",
+                        helperText: "* Required",
                         contentPadding: new EdgeInsets.symmetric(
                             vertical: 15.0, horizontal: 10.0),
                         focusedBorder: OutlineInputBorder(
@@ -306,7 +328,7 @@ class NewBug extends StatelessWidget {
                     controller: customControllerNote,
                     //autofocus: true,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.notes_rounded, size: 20),
+                        prefixIcon: Icon(Icons.text_snippet_outlined, size: 20),
                         hintText: "Note",
                         contentPadding: new EdgeInsets.symmetric(
                             vertical: 15.0, horizontal: 10.0),
@@ -338,5 +360,6 @@ class NewBug extends StatelessWidget {
             )
         )
     );
+
   }
 }

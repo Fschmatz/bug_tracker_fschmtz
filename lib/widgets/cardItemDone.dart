@@ -2,21 +2,27 @@ import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:flutter/material.dart';
 
-class CardItem extends StatefulWidget {
+class CardItemDone extends StatefulWidget {
   @override
-  _CardItemState createState() => _CardItemState();
+  _CardItemDoneState createState() => _CardItemDoneState();
 
   int index;
   Bug bug;
   Function() refreshHome;
   Function() refreshDoneBugs;
 
-  CardItem(
+  CardItemDone(
       {Key key, this.index, this.bug, this.refreshHome, this.refreshDoneBugs})
       : super(key: key);
 }
 
-class _CardItemState extends State<CardItem> {
+class _CardItemDoneState extends State<CardItemDone> {
+
+  void deleteBug(int id) async {
+    final dbBug = BugDao.instance;
+    final delete = await dbBug.delete(id);
+  }
+
   void changeBugState(int id, int state) async {
     final dbBug = BugDao.instance;
     Map<String, dynamic> row = {
@@ -57,11 +63,22 @@ class _CardItemState extends State<CardItem> {
                               style: TextStyle(
                                   fontSize: 16.5, fontWeight: FontWeight.w600),
                             ),
-                            trailing: IconButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              icon: Icon(Icons.edit_outlined, size: 22),
+                            trailing: Wrap(
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.delete_outline_rounded),
+                                  onPressed:() {
+                                    deleteBug(widget.bug.idBug);
+                                    widget.refreshDoneBugs();},
+                                ),
+                                const SizedBox(width: 15,),
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: Icon(Icons.edit_outlined, size: 22),
+                                ),
+                              ],
                             ),
                           ),
                           Divider(
@@ -93,7 +110,7 @@ class _CardItemState extends State<CardItem> {
                               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                               child: ListTile(
                                 leading:
-                                    Icon(Icons.text_snippet_outlined, size: 22),
+                                Icon(Icons.text_snippet_outlined, size: 22),
                                 title: Text(
                                   widget.bug.note,
                                   style: TextStyle(fontSize: 16),
@@ -106,7 +123,7 @@ class _CardItemState extends State<CardItem> {
                           ),
                           Center(
                             child: Card(
-                              margin: const EdgeInsets.fromLTRB(120, 0, 120, 0),
+                              margin: const EdgeInsets.fromLTRB(100, 0, 100, 0),
                               elevation: 2,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
@@ -130,15 +147,14 @@ class _CardItemState extends State<CardItem> {
                                       width: 25,
                                     ),
                                     Text(
-                                      "Done",
+                                      "Set Not Done",
                                       style: TextStyle(fontSize: 18),
                                     ),
                                   ],
                                 ),
                                 onTap: () {
-                                  changeBugState(widget.bug.idBug, 1);
-                                  widget.refreshHome();
-
+                                  changeBugState(widget.bug.idBug, 0);
+                                  widget.refreshDoneBugs();
                                   Navigator.of(context).pop();
                                 },
                               ),

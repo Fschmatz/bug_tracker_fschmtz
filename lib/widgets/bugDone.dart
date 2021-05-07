@@ -2,21 +2,21 @@ import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:flutter/material.dart';
 
-class CardItemDone extends StatefulWidget {
+class BugDone extends StatefulWidget {
   @override
-  _CardItemDoneState createState() => _CardItemDoneState();
+  _BugDoneState createState() => _BugDoneState();
 
   int index;
   Bug bug;
   Function() refreshHome;
   Function() refreshDoneBugs;
 
-  CardItemDone(
+  BugDone(
       {Key key, this.index, this.bug, this.refreshHome, this.refreshDoneBugs})
       : super(key: key);
 }
 
-class _CardItemDoneState extends State<CardItemDone> {
+class _BugDoneState extends State<BugDone> {
 
   void deleteBug(int id) async {
     final dbBug = BugDao.instance;
@@ -36,8 +36,8 @@ class _CardItemDoneState extends State<CardItemDone> {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(15.0),
-              topRight: const Radius.circular(15.0)),
+              topLeft: const Radius.circular(20.0),
+              topRight: const Radius.circular(20.0)),
         ),
         isScrollControlled: true,
         context: context,
@@ -81,9 +81,7 @@ class _CardItemDoneState extends State<CardItemDone> {
                               ],
                             ),
                           ),
-                          Divider(
-                            thickness: 1,
-                          ),
+                          const Divider(),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                             child: ListTile(
@@ -142,7 +140,7 @@ class _CardItemDoneState extends State<CardItemDone> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.done_outline, size: 20),
+                                    Icon(Icons.remove_done, size: 20),
                                     SizedBox(
                                       width: 25,
                                     ),
@@ -171,44 +169,27 @@ class _CardItemDoneState extends State<CardItemDone> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          side: BorderSide(
-            color: Colors.grey.withOpacity(0.3),
-            width: 1,
-          ),
-        ),
-        child: ListTile(
-          contentPadding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          title: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: Text(
-              widget.bug.description,
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-            child: Text(
-              widget.bug.errorDescription,
-              style: TextStyle(fontSize: 14.5),
-            ),
-          ),
-          leading: CircleAvatar(
-              backgroundColor:
-                  Color(int.parse(widget.bug.color.substring(6, 16)))),
-          onTap: () {
-            bottomMenuShowItem();
-          },
+    return ListTile(
+      title: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Text(
+          widget.bug.description,
+          style: TextStyle(fontSize: 16),
         ),
       ),
+      subtitle: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: Text(
+          widget.bug.errorDescription,
+          style: TextStyle(fontSize: 14.5),
+        ),
+      ),
+      leading: CircleAvatar(
+          backgroundColor:
+              Color(int.parse(widget.bug.color.substring(6, 16)))),
+      onTap: () {
+        bottomMenuShowItem();
+      },
     );
   }
 }

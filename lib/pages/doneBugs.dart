@@ -1,6 +1,6 @@
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
-import 'package:bug_tracker_fschmtz/widgets/cardItemDone.dart';
+import 'package:bug_tracker_fschmtz/widgets/bugDone.dart';
 import 'package:flutter/material.dart';
 
 class DoneBugs extends StatefulWidget {
@@ -31,21 +31,17 @@ class _DoneBugsState extends State<DoneBugs> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Done Bugs", style: TextStyle(
-              color: Theme.of(context).textTheme.headline6.color,
-              fontSize: 18)),
+          title: Text("Done Bugs"),
           elevation: 0,
         ),
         body: ListView(physics: AlwaysScrollableScrollPhysics(), children: [
           ListView.separated(
               physics: NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) => SizedBox(
-                    height: 5,
-                  ),
+              separatorBuilder: (context, index) => const Divider(),
               shrinkWrap: true,
               itemCount: bugListDone.length,
               itemBuilder: (context, index) {
-                return CardItemDone(
+                return BugDone(
                   key: UniqueKey(),
                   bug: Bug(
                     idBug: bugListDone[index]['idBug'],

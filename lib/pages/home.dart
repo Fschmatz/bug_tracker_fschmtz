@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
-import 'package:bug_tracker_fschmtz/configs/configs.dart';
+import 'package:bug_tracker_fschmtz/configs/settings.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:bug_tracker_fschmtz/pages/doneBugs.dart';
 import 'package:bug_tracker_fschmtz/pages/newBug.dart';
-import 'package:bug_tracker_fschmtz/widgets/cardItem.dart';
+import 'package:bug_tracker_fschmtz/widgets/bugHome.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -38,21 +38,16 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         elevation: 0,
         title: Text('BugTracker',
-            style: TextStyle(
-                color: Theme.of(context).textTheme.headline6.color,
-                fontSize: 18,
-                fontWeight: FontWeight.w600)),
+            ),
       ),
       body: ListView(physics: AlwaysScrollableScrollPhysics(), children: [
         ListView.separated(
             physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => SizedBox(
-                  height: 5,
-                ),
+            separatorBuilder: (context, index) => const Divider(),
             shrinkWrap: true,
             itemCount: bugList.length,
             itemBuilder: (context, index) {
-              return CardItem(
+              return BugHome(
                 key: UniqueKey(),
                 bug: Bug(
                   idBug: bugList[index]['idBug'],
@@ -73,7 +68,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: Container(
         child: FittedBox(
           child: FloatingActionButton(
-            backgroundColor: Color(0xFF404144),
+            backgroundColor: Color(0xFF424242),
             elevation: 0.0,
             onPressed: () {
               Navigator.push(
@@ -93,15 +88,18 @@ class _HomeState extends State<Home> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
           child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
                 icon: Icon(
                   Icons.done_outline,
-                  size: 22,
-                  color: Theme.of(context).hintColor,
+                  color: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .color
+                      .withOpacity(0.7),
                 ),
                 onPressed: () {
                   Navigator.push(
@@ -114,14 +112,17 @@ class _HomeState extends State<Home> {
             IconButton(
                 icon: Icon(
                   Icons.settings_outlined,
-                  size: 24,
-                  color: Theme.of(context).hintColor,
+                  color: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .color
+                      .withOpacity(0.7),
                 ),
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => Configs(),
+                        builder: (BuildContext context) => Settings(),
                         fullscreenDialog: true,
                       ));
                 }),

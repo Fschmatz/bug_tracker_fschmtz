@@ -19,10 +19,13 @@ class _SettingsState extends State<Settings> {
     super.initState();
   }
 
-  Color themeColorApp = Colors.deepPurple[200];
+  //Color themeColorApp = Colors.deepPurple[200];
 
   @override
   Widget build(BuildContext context) {
+
+    Color themeColorApp = Theme.of(context).accentColor;
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Settings"),

@@ -1,5 +1,6 @@
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
+import 'package:bug_tracker_fschmtz/pages/editBug.dart';
 import 'package:flutter/material.dart';
 
 class BugHome extends StatefulWidget {
@@ -60,6 +61,13 @@ class _BugHomeState extends State<BugHome> {
                             trailing: IconButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          EditBug(bug: widget.bug),
+                                      fullscreenDialog: true,
+                                    )).then((value) => widget.refreshHome());
                               },
                               icon: Icon(Icons.edit_outlined, size: 22),
                             ),
@@ -104,26 +112,22 @@ class _BugHomeState extends State<BugHome> {
                           ),
                           Center(
                             child: Card(
+                              color: Theme.of(context).accentColor,
                               margin: const EdgeInsets.fromLTRB(120, 0, 120, 0),
                               elevation: 2,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
-                                side: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  width: 1,
-                                ),
                               ),
                               child: ListTile(
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
-                                //leading: Icon(Icons.done_outline, size: 22),
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.done_outline, size: 20),
+                                    Icon(Icons.done),
                                     SizedBox(
                                       width: 25,
                                     ),
@@ -136,7 +140,6 @@ class _BugHomeState extends State<BugHome> {
                                 onTap: () {
                                   changeBugState(widget.bug.idBug, 1);
                                   widget.refreshHome();
-
                                   Navigator.of(context).pop();
                                 },
                               ),

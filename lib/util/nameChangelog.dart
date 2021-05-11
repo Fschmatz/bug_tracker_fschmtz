@@ -1,15 +1,23 @@
 class NameChangelog{
 
-  static String appVersion = "0.0.7";
+  static String appVersion = "1.0.0";
   static String appName = "BugTracker Fschmtz";
 
   static String changelogCurrent = '''  
-0.0.7
-- New Settings Layout
-- UI Changes
+1.0.0
+- Technically Usable
 ''';
 
   static String changelogsOld = '''
+0.0.8
+- Edit Bugs
+- Changed Accent Color
+- Update Icon
+
+0.0.7
+- New Settings Layout
+- UI Changes
+
 0.0.6
 - Delete OK
 - UI Changes

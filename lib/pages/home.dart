@@ -68,7 +68,6 @@ class _HomeState extends State<Home> {
       floatingActionButton: Container(
         child: FittedBox(
           child: FloatingActionButton(
-            backgroundColor: Color(0xFF424242),
             elevation: 0.0,
             onPressed: () {
               Navigator.push(
@@ -94,7 +93,7 @@ class _HomeState extends State<Home> {
           children: [
             IconButton(
                 icon: Icon(
-                  Icons.done_outline,
+                  Icons.playlist_add_check_outlined,
                   color: Theme.of(context)
                       .textTheme
                       .headline6

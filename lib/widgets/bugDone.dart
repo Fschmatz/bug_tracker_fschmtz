@@ -1,5 +1,6 @@
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
+import 'package:bug_tracker_fschmtz/pages/editBug.dart';
 import 'package:flutter/material.dart';
 
 class BugDone extends StatefulWidget {
@@ -17,7 +18,6 @@ class BugDone extends StatefulWidget {
 }
 
 class _BugDoneState extends State<BugDone> {
-
   void deleteBug(int id) async {
     final dbBug = BugDao.instance;
     final delete = await dbBug.delete(id);
@@ -67,14 +67,24 @@ class _BugDoneState extends State<BugDone> {
                               children: [
                                 IconButton(
                                   icon: Icon(Icons.delete_outline_rounded),
-                                  onPressed:() {
+                                  onPressed: () {
                                     deleteBug(widget.bug.idBug);
-                                    widget.refreshDoneBugs();},
+                                    widget.refreshDoneBugs();
+                                  },
                                 ),
-                                const SizedBox(width: 15,),
+                                const SizedBox(
+                                  width: 15,
+                                ),
                                 IconButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              EditBug(bug:  widget.bug),
+                                          fullscreenDialog: true,
+                                        )).then((value) => widget.refreshDoneBugs());
                                   },
                                   icon: Icon(Icons.edit_outlined, size: 22),
                                 ),
@@ -108,7 +118,7 @@ class _BugDoneState extends State<BugDone> {
                               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                               child: ListTile(
                                 leading:
-                                Icon(Icons.text_snippet_outlined, size: 22),
+                                    Icon(Icons.text_snippet_outlined, size: 22),
                                 title: Text(
                                   widget.bug.note,
                                   style: TextStyle(fontSize: 16),
@@ -121,15 +131,12 @@ class _BugDoneState extends State<BugDone> {
                           ),
                           Center(
                             child: Card(
+                              color: Theme.of(context).accentColor,
                               margin: const EdgeInsets.fromLTRB(100, 0, 100, 0),
                               elevation: 2,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
-                                side: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  width: 1,
-                                ),
                               ),
                               child: ListTile(
                                 shape: RoundedRectangleBorder(
@@ -140,7 +147,7 @@ class _BugDoneState extends State<BugDone> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.remove_done, size: 20),
+                                    Icon(Icons.remove_done),
                                     SizedBox(
                                       width: 25,
                                     ),
@@ -185,8 +192,7 @@ class _BugDoneState extends State<BugDone> {
         ),
       ),
       leading: CircleAvatar(
-          backgroundColor:
-              Color(int.parse(widget.bug.color.substring(6, 16)))),
+          backgroundColor: Color(int.parse(widget.bug.color.substring(6, 16)))),
       onTap: () {
         bottomMenuShowItem();
       },

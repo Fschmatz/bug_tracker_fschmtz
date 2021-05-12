@@ -1,19 +1,19 @@
-import 'package:bug_tracker_fschmtz/util/nameChangelog.dart';
+import 'package:bug_tracker_fschmtz/util/changelog.dart';
 import 'package:bug_tracker_fschmtz/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'appInfo.dart';
-import 'changelog.dart';
+import 'appInfoPage.dart';
+import 'changelogPage.dart';
 
-class Settings extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   @override
-  _SettingsState createState() => _SettingsState();
+  _SettingsPageState createState() => _SettingsPageState();
 
-  Settings({Key key}) : super(key: key);
+  SettingsPage({Key key}) : super(key: key);
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
@@ -44,7 +44,7 @@ class _SettingsState extends State<Settings> {
                 ),
                 child: ListTile(
                   title: Text(
-                    NameChangelog.appName + " " + NameChangelog.appVersion,
+                    Changelog.appName + " " + Changelog.appVersion,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 17.5, color: Colors.black),
                   ),
@@ -73,7 +73,7 @@ class _SettingsState extends State<Settings> {
                   Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => AppInfo(),
+                        builder: (BuildContext context) => AppInfoPage(),
                         fullscreenDialog: true,
                       ));
                 },
@@ -93,7 +93,7 @@ class _SettingsState extends State<Settings> {
                   Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => Changelog(),
+                        builder: (BuildContext context) => ChangelogPage(),
                         fullscreenDialog: true,
                       ));
                 },

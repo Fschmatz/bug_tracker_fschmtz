@@ -3,21 +3,21 @@ import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:bug_tracker_fschmtz/pages/editBug.dart';
 import 'package:flutter/material.dart';
 
-class BugHome extends StatefulWidget {
+class OpenBug extends StatefulWidget {
   @override
-  _BugHomeState createState() => _BugHomeState();
+  _OpenBugState createState() => _OpenBugState();
 
   int index;
   Bug bug;
   Function() refreshHome;
   Function() refreshDoneBugs;
 
-  BugHome(
+  OpenBug(
       {Key key, this.index, this.bug, this.refreshHome, this.refreshDoneBugs})
       : super(key: key);
 }
 
-class _BugHomeState extends State<BugHome> {
+class _OpenBugState extends State<OpenBug> {
   void changeBugState(int id, int state) async {
     final dbBug = BugDao.instance;
     Map<String, dynamic> row = {
@@ -38,7 +38,7 @@ class _BugHomeState extends State<BugHome> {
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 30),
             child: Container(
               child: Wrap(
                 children: <Widget>[
@@ -77,9 +77,26 @@ class _BugHomeState extends State<BugHome> {
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                             child: ListTile(
                               leading: Icon(Icons.article_outlined, size: 22),
-                              title: Text(
-                                widget.bug.correctOutcome,
-                                style: TextStyle(fontSize: 16),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Application Name",
+                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .color
+                                        .withOpacity(0.7),),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    widget.bug.applicationName,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -87,22 +104,83 @@ class _BugHomeState extends State<BugHome> {
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                             child: ListTile(
                               leading: Icon(Icons.article_outlined, size: 22),
-                              title: Text(
-                                widget.bug.errorDescription,
-                                style: TextStyle(fontSize: 16),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Correct Outcome",
+                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .color
+                                        .withOpacity(0.7),),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    widget.bug.correctOutcome,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: ListTile(
+                              leading: Icon(Icons.article_outlined, size: 22),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Error Description",
+                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .color
+                                        .withOpacity(0.7),),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    widget.bug.errorDescription,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                           Visibility(
                             visible: widget.bug.note.isNotEmpty,
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                               child: ListTile(
                                 leading:
                                     Icon(Icons.text_snippet_outlined, size: 22),
-                                title: Text(
-                                  widget.bug.note,
-                                  style: TextStyle(fontSize: 16),
+                                title:  Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "Note",
+                                      style: TextStyle(fontSize: 14,color: Theme.of(context)
+                                          .textTheme
+                                          .headline6
+                                          .color
+                                          .withOpacity(0.7),),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      widget.bug.note,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -113,26 +191,26 @@ class _BugHomeState extends State<BugHome> {
                           Center(
                             child: Card(
                               color: Theme.of(context).accentColor,
-                              margin: const EdgeInsets.fromLTRB(120, 0, 120, 0),
+                              margin: const EdgeInsets.fromLTRB(140, 0, 140, 0),
                               elevation: 2,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                    BorderRadius.all(Radius.circular(15)),
                               ),
                               child: ListTile(
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                      BorderRadius.all(Radius.circular(15)),
                                 ),
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(Icons.done),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 25,
                                     ),
                                     Text(
-                                      "Done",
+                                      "Close",
                                       style: TextStyle(fontSize: 18),
                                     ),
                                   ],
@@ -158,7 +236,7 @@ class _BugHomeState extends State<BugHome> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
         child: Text(
           widget.bug.description,
           style: TextStyle(fontSize: 16),
@@ -167,8 +245,12 @@ class _BugHomeState extends State<BugHome> {
       subtitle: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
         child: Text(
-          widget.bug.errorDescription,
-          style: TextStyle(fontSize: 14.5),
+          widget.bug.applicationName,
+          style: TextStyle(fontSize: 14,color: Theme.of(context)
+              .textTheme
+              .headline6
+              .color
+              .withOpacity(0.7),),
         ),
       ),
       leading: CircleAvatar(

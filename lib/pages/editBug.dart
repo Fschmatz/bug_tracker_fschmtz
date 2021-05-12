@@ -22,6 +22,7 @@ class _EditBugState extends State<EditBug> {
   TextEditingController customControllerErrorDescription =
       TextEditingController();
   TextEditingController customControllerNote = TextEditingController();
+  TextEditingController customControllerApplicationName = TextEditingController();
 
   bool isSelectedRed = false;
   bool isSelectedOrange = false;
@@ -37,6 +38,7 @@ class _EditBugState extends State<EditBug> {
     customControllerCorrectOutcome.text = widget.bug.correctOutcome;
     customControllerErrorDescription.text = widget.bug.errorDescription;
     customControllerNote.text = widget.bug.note;
+    customControllerApplicationName.text = widget.bug.applicationName;
     state = widget.bug.state;
     print(selectedColor.toString() +
         '  ' +
@@ -68,6 +70,7 @@ class _EditBugState extends State<EditBug> {
     Map<String, dynamic> row = {
       BugDao.columnIdBug: widget.bug.idBug,
       BugDao.columnDescription: customControllerDescription.text,
+      BugDao.columnApplicationName: customControllerApplicationName.text,
       BugDao.columnState: state,
       BugDao.columnColor: selectedColor.toString(),
       BugDao.columnCorrectOutcome: customControllerCorrectOutcome.text,
@@ -79,6 +82,9 @@ class _EditBugState extends State<EditBug> {
 
   String checkProblems() {
     String errors = "";
+    if (customControllerApplicationName.text.isEmpty) {
+      errors += "Insert Application Name\n";
+    }
     if (customControllerDescription.text.isEmpty) {
       errors += "Insert Description\n";
     }
@@ -156,6 +162,44 @@ class _EditBugState extends State<EditBug> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  TextField(
+                    minLines: 1,
+                    maxLines: 5,
+                    maxLength: 100,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    textCapitalization: TextCapitalization.sentences,
+                    keyboardType: TextInputType.name,
+                    controller: customControllerApplicationName,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.article_outlined, size: 20),
+                        hintText: "Application Name",
+                        helperText: "* Required",
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 10.0),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey.withOpacity(0.3),
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                            borderRadius: BorderRadius.circular(10.0))
+                    ),
+                    style: TextStyle(
+                      fontSize: 17,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   TextField(
                     minLines: 1,
                     maxLines: 5,
@@ -298,7 +342,7 @@ class _EditBugState extends State<EditBug> {
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 25,
                   ),
                   TextField(
                     minLines: 1,

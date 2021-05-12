@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
-import 'package:bug_tracker_fschmtz/configs/settings.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
-import 'package:bug_tracker_fschmtz/pages/doneBugs.dart';
+import 'package:bug_tracker_fschmtz/pages/closedBugsPage.dart';
 import 'package:bug_tracker_fschmtz/pages/newBug.dart';
-import 'package:bug_tracker_fschmtz/widgets/bugHome.dart';
+import 'package:bug_tracker_fschmtz/settings/settingsPage.dart';
+import 'package:bug_tracker_fschmtz/widgets/openBug.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -47,11 +47,12 @@ class _HomeState extends State<Home> {
             shrinkWrap: true,
             itemCount: bugList.length,
             itemBuilder: (context, index) {
-              return BugHome(
+              return OpenBug(
                 key: UniqueKey(),
                 bug: Bug(
                   idBug: bugList[index]['idBug'],
                   description:bugList[index]['description'],
+                  applicationName: bugList[index]['applicationName'],
                   state: bugList[index]['state'],
                   color: bugList[index]['color'],
                   correctOutcome: bugList[index]['correctOutcome'],
@@ -104,7 +105,7 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => DoneBugs(),
+                        builder: (BuildContext context) => ClosedBugsPage(),
                         fullscreenDialog: true,
                       )).then((value) => getAllBugsNotDone());
                 }),
@@ -121,7 +122,7 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => Settings(),
+                        builder: (BuildContext context) => SettingsPage(),
                         fullscreenDialog: true,
                       ));
                 }),

@@ -1,7 +1,7 @@
-import 'package:bug_tracker_fschmtz/util/nameChangelog.dart';
+import 'package:bug_tracker_fschmtz/util/changelog.dart';
 import 'package:flutter/material.dart';
 
-class Changelog extends StatelessWidget {
+class ChangelogPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class Changelog extends StatelessWidget {
               Icons.article_outlined,
             ),
             title: Text(
-              NameChangelog.changelogCurrent,
+              Changelog.changelogCurrent,
               style: TextStyle(fontSize: 16),
             ),
           ),
@@ -48,7 +48,7 @@ class Changelog extends StatelessWidget {
               Icons.article_outlined,
             ),
             title: Text(
-              NameChangelog.changelogsOld,
+              Changelog.changelogsOld,
               style: TextStyle(fontSize: 16),
             ),
           ),

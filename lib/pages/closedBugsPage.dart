@@ -1,14 +1,14 @@
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
-import 'package:bug_tracker_fschmtz/widgets/bugDone.dart';
+import 'package:bug_tracker_fschmtz/widgets/closedBug.dart';
 import 'package:flutter/material.dart';
 
-class DoneBugs extends StatefulWidget {
+class ClosedBugsPage extends StatefulWidget {
   @override
-  _DoneBugsState createState() => _DoneBugsState();
+  _ClosedBugsPageState createState() => _ClosedBugsPageState();
 }
 
-class _DoneBugsState extends State<DoneBugs> {
+class _ClosedBugsPageState extends State<ClosedBugsPage> {
   final dbBug = BugDao.instance;
   List<Map<String, dynamic>> bugListDone = [];
 
@@ -31,7 +31,7 @@ class _DoneBugsState extends State<DoneBugs> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Done Bugs"),
+          title: Text("Closed Bugs"),
           elevation: 0,
         ),
         body: ListView(physics: AlwaysScrollableScrollPhysics(), children: [
@@ -41,11 +41,12 @@ class _DoneBugsState extends State<DoneBugs> {
               shrinkWrap: true,
               itemCount: bugListDone.length,
               itemBuilder: (context, index) {
-                return BugDone(
+                return ClosedBug(
                   key: UniqueKey(),
                   bug: Bug(
                     idBug: bugListDone[index]['idBug'],
                     description: bugListDone[index]['description'],
+                    applicationName: bugListDone[index]['applicationName'],
                     state: bugListDone[index]['state'],
                     color: bugListDone[index]['color'],
                     correctOutcome: bugListDone[index]['correctOutcome'],

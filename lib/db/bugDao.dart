@@ -12,7 +12,8 @@ class BugDao {
   static final table = 'bug';
   static final columnIdBug = 'idBug';
   static final columnDescription = 'description';
-  static final columnState = 'state'; // 0 do - 1 done
+  static final columnApplicationName = 'applicationName';
+  static final columnState = 'state'; // 0 open - 1 closed
   static final columnColor = 'color';
   static final columnCorrectOutcome = 'correctOutcome';
   static final columnErrorDescription = 'errorDescription';
@@ -41,6 +42,7 @@ class BugDao {
           CREATE TABLE $table (
             $columnIdBug INTEGER PRIMARY KEY,            
             $columnDescription TEXT NOT NULL,
+            $columnApplicationName TEXT NOT NULL,
             $columnState INTEGER NOT NULL,
             $columnColor TEXT NOT NULL,  
             $columnCorrectOutcome TEXT NOT NULL,

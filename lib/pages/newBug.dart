@@ -16,6 +16,7 @@ class _NewBugState extends State<NewBug> {
   TextEditingController customControllerCorrectOutcome = TextEditingController();
   TextEditingController customControllerErrorDescription = TextEditingController();
   TextEditingController customControllerNote = TextEditingController();
+  TextEditingController customControllerApplicationName = TextEditingController();
 
 
   bool isSelectedRed = false;
@@ -34,6 +35,7 @@ class _NewBugState extends State<NewBug> {
   void _saveBug() async {
     Map<String, dynamic> row = {
       BugDao.columnDescription: customControllerDescription.text,
+      BugDao.columnApplicationName: customControllerApplicationName.text,
       BugDao.columnState: 0,
       BugDao.columnColor : selectedColor.toString(),
       BugDao.columnCorrectOutcome: customControllerCorrectOutcome.text,
@@ -125,6 +127,44 @@ class _NewBugState extends State<NewBug> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  TextField(
+                    minLines: 1,
+                    maxLines: 5,
+                    maxLength: 100,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    textCapitalization: TextCapitalization.sentences,
+                    keyboardType: TextInputType.name,
+                    controller: customControllerApplicationName,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.article_outlined, size: 20),
+                        hintText: "Application Name",
+                        helperText: "* Required",
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 10.0),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey.withOpacity(0.3),
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                            borderRadius: BorderRadius.circular(10.0))
+                    ),
+                    style: TextStyle(
+                      fontSize: 17,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   TextField(
                     minLines: 1,
                     maxLines: 5,
@@ -237,7 +277,7 @@ class _NewBugState extends State<NewBug> {
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 25,
                   ),
                   TextField(
                     minLines: 1,

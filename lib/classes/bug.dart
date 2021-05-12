@@ -6,7 +6,6 @@ class Bug{
   int state;
   String color;
   String correctOutcome;
-  String errorDescription;
   String note;
 
   Bug({this.idBug,
@@ -15,6 +14,5 @@ class Bug{
       this.state,
       this.color,
       this.correctOutcome,
-      this.errorDescription,
       this.note});
 }

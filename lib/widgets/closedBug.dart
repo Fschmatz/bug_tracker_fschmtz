@@ -80,12 +80,14 @@ class _ClosedBugState extends State<ClosedBug> {
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (BuildContext context) =>
-                                              EditBug(bug:  widget.bug),
-                                          fullscreenDialog: true,
-                                        )).then((value) => widget.refreshDoneBugs());
+                                            context,
+                                            MaterialPageRoute<void>(
+                                              builder: (BuildContext context) =>
+                                                  EditBug(bug: widget.bug),
+                                              fullscreenDialog: true,
+                                            ))
+                                        .then((value) =>
+                                            widget.refreshDoneBugs());
                                   },
                                   icon: Icon(Icons.edit_outlined, size: 22),
                                 ),
@@ -103,11 +105,14 @@ class _ClosedBugState extends State<ClosedBug> {
                                 children: [
                                   Text(
                                     "Application Name",
-                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .color
-                                        .withOpacity(0.7),),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline6
+                                          .color
+                                          .withOpacity(0.7),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 8,
@@ -130,11 +135,14 @@ class _ClosedBugState extends State<ClosedBug> {
                                 children: [
                                   Text(
                                     "Correct Outcome",
-                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .color
-                                        .withOpacity(0.7),),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline6
+                                          .color
+                                          .withOpacity(0.7),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 8,
@@ -147,51 +155,27 @@ class _ClosedBugState extends State<ClosedBug> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: ListTile(
-                              leading: Icon(Icons.article_outlined, size: 22),
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "Error Description",
-                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .color
-                                        .withOpacity(0.7),),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    widget.bug.errorDescription,
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                           Visibility(
                             visible: widget.bug.note.isNotEmpty,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                               child: ListTile(
                                 leading:
-                                Icon(Icons.text_snippet_outlined, size: 22),
-                                title:  Column(
+                                    Icon(Icons.text_snippet_outlined, size: 22),
+                                title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
                                       "Note",
-                                      style: TextStyle(fontSize: 14,color: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          .color
-                                          .withOpacity(0.7),),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline6
+                                            .color
+                                            .withOpacity(0.7),
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 8,
@@ -222,18 +206,10 @@ class _ClosedBugState extends State<ClosedBug> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15)),
                                 ),
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.remove_done),
-                                    SizedBox(
-                                      width: 25,
-                                    ),
-                                    Text(
-                                      "Open",
-                                      style: TextStyle(fontSize: 18),
-                                    ),
-                                  ],
+                                title: Text(
+                                  "Open",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 16),
                                 ),
                                 onTap: () {
                                   changeBugState(widget.bug.idBug, 0);
@@ -266,11 +242,10 @@ class _ClosedBugState extends State<ClosedBug> {
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
         child: Text(
           widget.bug.applicationName,
-          style: TextStyle(fontSize: 14,color: Theme.of(context)
-              .textTheme
-              .headline6
-              .color
-              .withOpacity(0.7),),
+          style: TextStyle(
+            fontSize: 14,
+            color: Theme.of(context).textTheme.headline6.color.withOpacity(0.7),
+          ),
         ),
       ),
       leading: CircleAvatar(

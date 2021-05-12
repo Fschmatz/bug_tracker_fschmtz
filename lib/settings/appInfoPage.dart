@@ -113,7 +113,7 @@ class AppInfoPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.messenger_outline),
             title: Text(
-              "Any fool can know.The point is to understand.\nAlbert Einstein",
+              "Any fool can know. The point is to understand.\nAlbert Einstein",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
           ),

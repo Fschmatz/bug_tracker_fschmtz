@@ -56,7 +56,6 @@ class _HomeState extends State<Home> {
                   state: bugList[index]['state'],
                   color: bugList[index]['color'],
                   correctOutcome: bugList[index]['correctOutcome'],
-                  errorDescription:bugList[index]['errorDescription'],
                   note: bugList[index]['note'],
               ),
                 refreshHome: refreshHome,

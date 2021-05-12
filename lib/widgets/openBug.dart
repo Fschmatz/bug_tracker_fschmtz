@@ -127,33 +127,6 @@ class _OpenBugState extends State<OpenBug> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: ListTile(
-                              leading: Icon(Icons.article_outlined, size: 22),
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "Error Description",
-                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .color
-                                        .withOpacity(0.7),),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    widget.bug.errorDescription,
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                           Visibility(
                             visible: widget.bug.note.isNotEmpty,
                             child: Padding(
@@ -202,18 +175,9 @@ class _OpenBugState extends State<OpenBug> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15)),
                                 ),
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.done),
-                                    const SizedBox(
-                                      width: 25,
-                                    ),
-                                    Text(
-                                      "Close",
-                                      style: TextStyle(fontSize: 18),
-                                    ),
-                                  ],
+                                title:  Text(
+                                  "Close",textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 16),
                                 ),
                                 onTap: () {
                                   changeBugState(widget.bug.idBug, 1);

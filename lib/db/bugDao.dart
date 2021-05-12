@@ -16,7 +16,6 @@ class BugDao {
   static final columnState = 'state'; // 0 open - 1 closed
   static final columnColor = 'color';
   static final columnCorrectOutcome = 'correctOutcome';
-  static final columnErrorDescription = 'errorDescription';
   static final columnNote = 'note';
 
   BugDao._privateConstructor();
@@ -45,8 +44,7 @@ class BugDao {
             $columnApplicationName TEXT NOT NULL,
             $columnState INTEGER NOT NULL,
             $columnColor TEXT NOT NULL,  
-            $columnCorrectOutcome TEXT NOT NULL,
-            $columnErrorDescription TEXT NOT NULL,            
+            $columnCorrectOutcome TEXT NOT NULL,         
             $columnNote TEXT
           )
           ''');

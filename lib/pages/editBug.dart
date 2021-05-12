@@ -19,8 +19,6 @@ class _EditBugState extends State<EditBug> {
   TextEditingController customControllerDescription = TextEditingController();
   TextEditingController customControllerCorrectOutcome =
       TextEditingController();
-  TextEditingController customControllerErrorDescription =
-      TextEditingController();
   TextEditingController customControllerNote = TextEditingController();
   TextEditingController customControllerApplicationName = TextEditingController();
 
@@ -36,13 +34,9 @@ class _EditBugState extends State<EditBug> {
   void initState() {
     customControllerDescription.text = widget.bug.description;
     customControllerCorrectOutcome.text = widget.bug.correctOutcome;
-    customControllerErrorDescription.text = widget.bug.errorDescription;
     customControllerNote.text = widget.bug.note;
     customControllerApplicationName.text = widget.bug.applicationName;
     state = widget.bug.state;
-    print(selectedColor.toString() +
-        '  ' +
-        Color(int.parse(widget.bug.color.substring(6, 16))).toString());
     selectedColor = Color(int.parse(widget.bug.color.substring(6, 16)));
     if (Color(int.parse(widget.bug.color.substring(6, 16)))
         .toString()
@@ -74,7 +68,6 @@ class _EditBugState extends State<EditBug> {
       BugDao.columnState: state,
       BugDao.columnColor: selectedColor.toString(),
       BugDao.columnCorrectOutcome: customControllerCorrectOutcome.text,
-      BugDao.columnErrorDescription: customControllerErrorDescription.text,
       BugDao.columnNote: customControllerNote.text,
     };
     final update = await dbBug.update(row);
@@ -90,9 +83,6 @@ class _EditBugState extends State<EditBug> {
     }
     if (customControllerCorrectOutcome.text.isEmpty) {
       errors += "Insert Correct Outcome\n";
-    }
-    if (customControllerErrorDescription.text.isEmpty) {
-      errors += "Insert Error Description\n";
     }
     return errors;
   }
@@ -165,7 +155,7 @@ class _EditBugState extends State<EditBug> {
                   TextField(
                     minLines: 1,
                     maxLines: 5,
-                    maxLength: 100,
+                    maxLength: 150,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
@@ -203,7 +193,7 @@ class _EditBugState extends State<EditBug> {
                   TextField(
                     minLines: 1,
                     maxLines: 5,
-                    maxLength: 100,
+                    maxLength: 150,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
@@ -347,7 +337,7 @@ class _EditBugState extends State<EditBug> {
                   TextField(
                     minLines: 1,
                     maxLines: 5,
-                    maxLength: 100,
+                    maxLength: 150,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
@@ -355,43 +345,6 @@ class _EditBugState extends State<EditBug> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.article_outlined, size: 20),
                         hintText: "Correct Outcome",
-                        helperText: "* Required",
-                        contentPadding: new EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 10.0),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey.withOpacity(0.3),
-                          ),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey.withOpacity(0.3),
-                            ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey.withOpacity(0.3),
-                            ),
-                            borderRadius: BorderRadius.circular(10.0))),
-                    style: TextStyle(
-                      fontSize: 17,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  TextField(
-                    minLines: 1,
-                    maxLines: 5,
-                    maxLength: 100,
-                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    textCapitalization: TextCapitalization.sentences,
-                    keyboardType: TextInputType.name,
-                    controller: customControllerErrorDescription,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.article_outlined, size: 20),
-                        hintText: "Error Description",
                         helperText: "* Required",
                         contentPadding: new EdgeInsets.symmetric(
                             vertical: 15.0, horizontal: 10.0),

@@ -50,7 +50,6 @@ class _ClosedBugsPageState extends State<ClosedBugsPage> {
                     state: bugListDone[index]['state'],
                     color: bugListDone[index]['color'],
                     correctOutcome: bugListDone[index]['correctOutcome'],
-                    errorDescription: bugListDone[index]['errorDescription'],
                     note: bugListDone[index]['note'],
                   ),
                   refreshDoneBugs: refreshDoneBugs,

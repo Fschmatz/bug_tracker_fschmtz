@@ -14,7 +14,6 @@ class _NewBugState extends State<NewBug> {
 
   TextEditingController customControllerDescription = TextEditingController();
   TextEditingController customControllerCorrectOutcome = TextEditingController();
-  TextEditingController customControllerErrorDescription = TextEditingController();
   TextEditingController customControllerNote = TextEditingController();
   TextEditingController customControllerApplicationName = TextEditingController();
 
@@ -39,7 +38,6 @@ class _NewBugState extends State<NewBug> {
       BugDao.columnState: 0,
       BugDao.columnColor : selectedColor.toString(),
       BugDao.columnCorrectOutcome: customControllerCorrectOutcome.text,
-      BugDao.columnErrorDescription:  customControllerErrorDescription.text,
       BugDao.columnNote: customControllerNote.text,
     };
     final id = await dbBug.insert(row);
@@ -48,14 +46,14 @@ class _NewBugState extends State<NewBug> {
 
   String checkProblems() {
     String errors = "";
+    if (customControllerApplicationName.text.isEmpty) {
+      errors += "Insert Application Name\n";
+    }
     if (customControllerDescription.text.isEmpty) {
       errors += "Insert Description\n";
     }
     if (customControllerCorrectOutcome.text.isEmpty) {
       errors += "Insert Correct Outcome\n";
-    }
-    if (customControllerErrorDescription.text.isEmpty) {
-      errors += "Insert Error Description\n";
     }
     return errors;
   }
@@ -130,7 +128,7 @@ class _NewBugState extends State<NewBug> {
                   TextField(
                     minLines: 1,
                     maxLines: 5,
-                    maxLength: 100,
+                    maxLength: 150,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
@@ -168,7 +166,7 @@ class _NewBugState extends State<NewBug> {
                   TextField(
                     minLines: 1,
                     maxLines: 5,
-                    maxLength: 100,
+                    maxLength: 150,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
@@ -282,7 +280,7 @@ class _NewBugState extends State<NewBug> {
                   TextField(
                     minLines: 1,
                     maxLines: 5,
-                    maxLength: 100,
+                    maxLength: 150,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
@@ -290,44 +288,6 @@ class _NewBugState extends State<NewBug> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.article_outlined, size: 20),
                         hintText: "Correct Outcome",
-                        helperText: "* Required",
-                        contentPadding: new EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 10.0),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey.withOpacity(0.3),
-                          ),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey.withOpacity(0.3),
-                            ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey.withOpacity(0.3),
-                            ),
-                            borderRadius: BorderRadius.circular(10.0))
-                    ),
-                    style: TextStyle(
-                      fontSize: 17,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  TextField(
-                    minLines: 1,
-                    maxLines: 5,
-                    maxLength: 100,
-                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    textCapitalization: TextCapitalization.sentences,
-                    keyboardType: TextInputType.name,
-                    controller: customControllerErrorDescription,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.article_outlined, size: 20),
-                        hintText: "Error Description",
                         helperText: "* Required",
                         contentPadding: new EdgeInsets.symmetric(
                             vertical: 15.0, horizontal: 10.0),

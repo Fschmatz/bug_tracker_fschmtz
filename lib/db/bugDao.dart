@@ -3,7 +3,6 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class BugDao {
 
   static final _databaseName = "BugTracker.db";
@@ -18,15 +17,12 @@ class BugDao {
   static final columnCorrectOutcome = 'correctOutcome';
   static final columnNote = 'note';
 
+  static Database? _database;
+  Future<Database> get database async =>
+      _database ??= await _initDatabase();
+
   BugDao._privateConstructor();
   static final BugDao instance = BugDao._privateConstructor();
-  static Database _database;
-
-  Future<Database> get database async {
-    if (_database != null) return _database;
-    _database = await _initDatabase();
-    return _database;
-  }
 
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -60,7 +56,7 @@ class BugDao {
     return await db.query(table);
   }
 
-  Future<int> queryRowCount() async {
+  Future<int?> queryRowCount() async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }

@@ -43,6 +43,7 @@ class _ClosedBugsPageState extends State<ClosedBugsPage> {
               itemBuilder: (context, index) {
                 return ClosedBug(
                   key: UniqueKey(),
+                  refreshHome: getAllBugsDone,
                   bug: Bug(
                     idBug: bugListDone[index]['idBug'],
                     description: bugListDone[index]['description'],

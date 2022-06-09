@@ -7,13 +7,13 @@ class ClosedBug extends StatefulWidget {
   @override
   _ClosedBugState createState() => _ClosedBugState();
 
-  int index;
+  int? index;
   Bug bug;
   Function() refreshHome;
   Function() refreshDoneBugs;
 
   ClosedBug(
-      {Key key, this.index, this.bug, this.refreshHome, this.refreshDoneBugs})
+      {Key? key, this.index, required this.bug,required this.refreshHome, required this.refreshDoneBugs})
       : super(key: key);
 }
 
@@ -107,11 +107,6 @@ class _ClosedBugState extends State<ClosedBug> {
                                     "Application Name",
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          .color
-                                          .withOpacity(0.7),
                                     ),
                                   ),
                                   const SizedBox(
@@ -137,11 +132,7 @@ class _ClosedBugState extends State<ClosedBug> {
                                     "Correct Outcome",
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          .color
-                                          .withOpacity(0.7),
+
                                     ),
                                   ),
                                   const SizedBox(
@@ -156,7 +147,7 @@ class _ClosedBugState extends State<ClosedBug> {
                             ),
                           ),
                           Visibility(
-                            visible: widget.bug.note.isNotEmpty,
+                            visible: widget.bug.note!.isNotEmpty,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                               child: ListTile(
@@ -170,18 +161,13 @@ class _ClosedBugState extends State<ClosedBug> {
                                       "Note",
                                       style: TextStyle(
                                         fontSize: 14,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline6
-                                            .color
-                                            .withOpacity(0.7),
                                       ),
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
                                     Text(
-                                      widget.bug.note,
+                                      widget.bug.note!,
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ],
@@ -244,7 +230,6 @@ class _ClosedBugState extends State<ClosedBug> {
           widget.bug.applicationName,
           style: TextStyle(
             fontSize: 14,
-            color: Theme.of(context).textTheme.headline6.color.withOpacity(0.7),
           ),
         ),
       ),

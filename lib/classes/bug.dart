@@ -6,13 +6,13 @@ class Bug{
   int state;
   String color;
   String correctOutcome;
-  String note;
+  String? note;
 
-  Bug({this.idBug,
-      this.description,
-      this.applicationName,
-      this.state,
-      this.color,
-      this.correctOutcome,
+  Bug({required this.idBug,
+      required this.description,
+      required this.applicationName,
+      required this.state,
+      required this.color,
+      required this.correctOutcome,
       this.note});
 }

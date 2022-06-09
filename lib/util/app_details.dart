@@ -1,16 +1,27 @@
-class Changelog{
-
-  static String appVersion = "1.0.2";
-  static String appName = "BugTracker Fschmtz";
+class AppDetails {
+  static String appVersion = "2.0.0";
+  static String appName = "BugTracker Fschmatz";
+  static String repositoryLink =
+      "https://github.com/Fschmatz/bug_tracker_fschmtz";
 
   static String changelogCurrent = '''  
+2.0.0
+- App remake
+- Flutter 3
+- Bug fixes
+''';
+
+  static String changelogsOld = '''
+1.2.3
+- Save edited note on back
+- UI changes
+- Bug fixes
+
 1.0.2
 - Technically Usable
 - Added Application Name
 - Small UI Changes
-''';
 
-  static String changelogsOld = '''
 0.0.8
 - Edit Bugs
 - Changed Accent Color
@@ -40,13 +51,6 @@ class Changelog{
 - New Bug Page
 
 0.0.1
-- Project Start                                  
-
-
-
-
-
-(ಠ‿ಠ)  
+- Project Start    
 ''';
-
 }

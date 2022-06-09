@@ -9,7 +9,7 @@ class EditBug extends StatefulWidget {
 
   Bug bug;
 
-  EditBug({Key key, this.bug}) : super(key: key);
+  EditBug({Key? key, required this.bug}) : super(key: key);
 }
 
 class _EditBugState extends State<EditBug> {
@@ -34,7 +34,7 @@ class _EditBugState extends State<EditBug> {
   void initState() {
     customControllerDescription.text = widget.bug.description;
     customControllerCorrectOutcome.text = widget.bug.correctOutcome;
-    customControllerNote.text = widget.bug.note;
+    customControllerNote.text = widget.bug.note!;
     customControllerApplicationName.text = widget.bug.applicationName;
     state = widget.bug.state;
     selectedColor = Color(int.parse(widget.bug.color.substring(6, 16)));

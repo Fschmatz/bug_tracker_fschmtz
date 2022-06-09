@@ -7,13 +7,13 @@ class OpenBug extends StatefulWidget {
   @override
   _OpenBugState createState() => _OpenBugState();
 
-  int index;
+  int? index;
   Bug bug;
   Function() refreshHome;
   Function() refreshDoneBugs;
 
   OpenBug(
-      {Key key, this.index, this.bug, this.refreshHome, this.refreshDoneBugs})
+      {Key? key, this.index, required this.bug, required this.refreshHome, required this.refreshDoneBugs})
       : super(key: key);
 }
 
@@ -83,11 +83,7 @@ class _OpenBugState extends State<OpenBug> {
                                 children: [
                                   Text(
                                     "Application Name",
-                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .color
-                                        .withOpacity(0.7),),
+                                    style: TextStyle(fontSize: 14,),
                                   ),
                                   const SizedBox(
                                     height: 8,
@@ -110,11 +106,7 @@ class _OpenBugState extends State<OpenBug> {
                                 children: [
                                   Text(
                                     "Correct Outcome",
-                                    style: TextStyle(fontSize: 14,color: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .color
-                                        .withOpacity(0.7),),
+                                    style: TextStyle(fontSize: 14,),
                                   ),
                                   const SizedBox(
                                     height: 8,
@@ -128,7 +120,7 @@ class _OpenBugState extends State<OpenBug> {
                             ),
                           ),
                           Visibility(
-                            visible: widget.bug.note.isNotEmpty,
+                            visible: widget.bug.note!.isNotEmpty,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                               child: ListTile(
@@ -140,17 +132,13 @@ class _OpenBugState extends State<OpenBug> {
                                   children: [
                                     Text(
                                       "Note",
-                                      style: TextStyle(fontSize: 14,color: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          .color
-                                          .withOpacity(0.7),),
+                                      style: TextStyle(fontSize: 14,),
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
                                     Text(
-                                      widget.bug.note,
+                                      widget.bug.note!,
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ],
@@ -199,25 +187,16 @@ class _OpenBugState extends State<OpenBug> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-        child: Text(
-          widget.bug.description,
-          style: TextStyle(fontSize: 16),
-        ),
+      title: Text(
+        widget.bug.description,
+
       ),
-      subtitle: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-        child: Text(
-          widget.bug.applicationName,
-          style: TextStyle(fontSize: 14,color: Theme.of(context)
-              .textTheme
-              .headline6
-              .color
-              .withOpacity(0.7),),
-        ),
+      subtitle: Text(
+        widget.bug.applicationName,
+
       ),
       leading: CircleAvatar(
+        radius: 15,
           backgroundColor:
               Color(int.parse(widget.bug.color.substring(6, 16)))),
       onTap: () {

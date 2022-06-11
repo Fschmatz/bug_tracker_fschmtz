@@ -27,7 +27,7 @@ class _OpenBugState extends State<OpenBug> {
     final update = await dbBug.update(row);
   }
 
-  void bottomMenuShowItem() {
+  /*void bottomMenuShowItem() {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -182,25 +182,35 @@ class _OpenBugState extends State<OpenBug> {
             ),
           );
         });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      minLeadingWidth: 20,
       title: Text(
         widget.bug.description,
-
       ),
       subtitle: Text(
         widget.bug.applicationName,
-
       ),
-      leading: CircleAvatar(
+      leading:
+      Icon(
+         Icons.flag_outlined,
+        size: 24,
+        color: Color(int.parse(widget.bug.color.substring(6, 16)))
+      ),
+      /*CircleAvatar(
         radius: 15,
           backgroundColor:
-              Color(int.parse(widget.bug.color.substring(6, 16)))),
+              Color(int.parse(widget.bug.color.substring(6, 16)))),*/
       onTap: () {
-        bottomMenuShowItem();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  EditBug(bug: widget.bug),
+            )).then((value) => widget.refreshHome());
       },
     );
   }

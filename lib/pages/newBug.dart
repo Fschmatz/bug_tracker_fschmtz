@@ -91,7 +91,7 @@ class _NewBugState extends State<NewBug> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("New Bug"),
+          title: Text("Edit Bug"),
           actions: [
             IconButton(
               icon: Icon(Icons.save_outlined),

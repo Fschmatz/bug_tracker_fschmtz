@@ -6,7 +6,10 @@ import 'package:bug_tracker_fschmtz/widgets/openBug.dart';
 import 'package:flutter/material.dart';
 
 class BugList extends StatefulWidget {
-  const BugList({Key? key}) : super(key: key);
+
+  int state;
+
+  BugList({Key? key, required this.state}) : super(key: key);
 
   @override
   _BugListState createState() => _BugListState();
@@ -24,7 +27,7 @@ class _BugListState extends State<BugList> {
   }
 
   Future<void> getAllBugsNotDone() async {
-    var resp = await dbBug.getAllByState(0);
+    var resp = await dbBug.getAllByState(widget.state);
     setState(() {
       bugList = resp;
     });

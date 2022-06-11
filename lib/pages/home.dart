@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:bug_tracker_fschmtz/pages/bug_list.dart';
 import 'package:bug_tracker_fschmtz/pages/settings/settings.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +16,11 @@ class _HomeState extends State<Home>{
   final List<Widget> _tabs = [
     BugList(
       key: UniqueKey(),
-
+      state: 0,
     ),
     BugList(
       key: UniqueKey(),
-
+      state: 1,
     ),
   ];
 
@@ -56,7 +57,15 @@ class _HomeState extends State<Home>{
               ),
             ];
           },
-          body: _tabs[_currentTabIndex]),
+          body: PageTransitionSwitcher(
+              transitionBuilder: (child, animation, secondaryAnimation) =>
+                  FadeThroughTransition(
+                    fillColor: Theme.of(context).scaffoldBackgroundColor,
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    child: child,
+                  ),
+              child: _tabs[_currentTabIndex])),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentTabIndex,
         onDestinationSelected: (index) {

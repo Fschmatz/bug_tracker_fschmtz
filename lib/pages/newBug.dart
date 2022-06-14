@@ -12,11 +12,9 @@ class _NewBugState extends State<NewBug> {
   Color selectedColor = Color(0xFFFFD600);
 
   TextEditingController controllerDescription = TextEditingController();
-  TextEditingController controllerCorrectOutcome =
-      TextEditingController();
+  TextEditingController controllerCorrectOutcome = TextEditingController();
   TextEditingController controllerNote = TextEditingController();
-  TextEditingController controllerApplicationName =
-      TextEditingController();
+  TextEditingController controllerApplicationName = TextEditingController();
 
   bool isSelectedRed = false;
   bool isSelectedOrange = false;
@@ -91,11 +89,10 @@ class _NewBugState extends State<NewBug> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Edit Bug"),
+          title: Text("New Bug"),
           actions: [
             IconButton(
               icon: Icon(Icons.save_outlined),
-              tooltip: 'Save',
               onPressed: () {
                 if (checkProblems().isEmpty) {
                   _saveBug();
@@ -112,11 +109,10 @@ class _NewBugState extends State<NewBug> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               minLines: 1,
-              maxLines: 5,
+              maxLines: null,
               maxLength: 500,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.name,
               controller: controllerApplicationName,
               decoration: InputDecoration(
                 labelText: "Application Name",
@@ -129,11 +125,10 @@ class _NewBugState extends State<NewBug> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               minLines: 1,
-              maxLines: 5,
+              maxLines: null,
               maxLength: 500,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.name,
               controller: controllerDescription,
               decoration: InputDecoration(
                 labelText: "Description",
@@ -142,16 +137,14 @@ class _NewBugState extends State<NewBug> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               minLines: 1,
-              maxLines: 5,
+              maxLines: null,
               maxLength: 500,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.name,
               controller: controllerCorrectOutcome,
               decoration: InputDecoration(
                 labelText: "Correct Outcome",
@@ -167,63 +160,63 @@ class _NewBugState extends State<NewBug> {
               children: [
                 Container(
                     child: Row(
-                      children: [
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Icon(
-                          Icons.flag_outlined,
-                          color: Theme.of(context).hintColor,
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          "Priority",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Theme.of(context).hintColor,
-                          ),
-                        )
-                      ],
-                    )),
+                  children: [
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.flag_outlined,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "Priority",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).hintColor,
+                      ),
+                    )
+                  ],
+                )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     MaterialButton(
-                      minWidth: 20,
+                      minWidth: 55,
                       height: 35,
                       child: isSelectedRed
                           ? Icon(
-                        Icons.check,
-                        size: 20,
-                        color: Colors.black87,
-                      )
+                              Icons.check,
+                              size: 20,
+                              color: Colors.black87,
+                            )
                           : SizedBox.shrink(),
                       shape: CircleBorder(),
                       elevation: 1,
-                      color: Color(0xFFFF5252),
+                      color: Color(0xFFFC5757),
                       onPressed: () {
                         setState(() {
                           isSelectedRed = true;
                           isSelectedOrange = false;
                           isSelectedYellow = false;
                         });
-                        selectedColor = Color(0xFFFF5252);
+                        selectedColor = Color(0xFFFC5757);
                       },
                     ),
                     const SizedBox(
                       width: 15,
                     ),
                     MaterialButton(
-                      minWidth: 20,
+                      minWidth: 55,
                       height: 35,
                       child: isSelectedOrange
                           ? Icon(
-                        Icons.check,
-                        size: 20,
-                        color: Colors.black87,
-                      )
+                              Icons.check,
+                              size: 20,
+                              color: Colors.black87,
+                            )
                           : SizedBox.shrink(),
                       shape: CircleBorder(),
                       elevation: 1,
@@ -241,14 +234,14 @@ class _NewBugState extends State<NewBug> {
                       width: 15,
                     ),
                     MaterialButton(
-                      minWidth: 20,
+                      minWidth: 55,
                       height: 35,
                       child: isSelectedYellow
                           ? Icon(
-                        Icons.check,
-                        size: 20,
-                        color: Colors.black87,
-                      )
+                              Icons.check,
+                              size: 20,
+                              color: Colors.black87,
+                            )
                           : SizedBox.shrink(),
                       shape: CircleBorder(),
                       elevation: 2,
@@ -271,11 +264,10 @@ class _NewBugState extends State<NewBug> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               minLines: 1,
-              maxLines: 5,
+              maxLines: null,
               maxLength: 2000,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.name,
               controller: controllerNote,
               decoration: InputDecoration(
                 labelText: "Note",

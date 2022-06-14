@@ -8,31 +8,21 @@ ThemeData light = ThemeData(
     brightness: Brightness.light,
     primaryColor: const Color(0xFFF0F2F5),
     colorScheme: const ColorScheme.light(
-      primary: Color(0xFF00B591),
+      primary: Color(0xFF006d3f),
+      onPrimary: Color(0xFFFFFFFF),
       onSecondary: Color(0xFF00A6B5),
       secondary: Color(0xFF09B091),
     ),
     appBarTheme: const AppBarTheme(
         surfaceTintColor: Color(0xFFF0F2F5),
         color: Color(0xFFF0F2F5),
-        elevation: 0,
-        iconTheme: IconThemeData(color: Color(0xFF000000)),
-        titleTextStyle: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w400,
-            color: Color(0xFF000000))),
+    ),
     scaffoldBackgroundColor: const Color(0xFFF0F2F5),
     cardTheme: const CardTheme(
-      color: Color(0xFFFCFEFF),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-      ),
+      color: Color(0xFFFCFEFF),      
     ),
     dialogTheme: const DialogTheme(
-      backgroundColor: Color(0xFFF0F2F5),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(28)),
-      ),
+      backgroundColor: Color(0xFFF0F2F5),     
     ),
     inputDecorationTheme: InputDecorationTheme(
         focusColor:  const Color(0xFF00B591),
@@ -44,12 +34,12 @@ ThemeData light = ThemeData(
         ),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.grey[300]!,
+              color: Color(0xFF707971),
             ),
             borderRadius: BorderRadius.circular(8.0)),
         border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.grey[300]!,
+              color: Color(0xFF707971),
             ),
             borderRadius: BorderRadius.circular(8.0))),
     bottomAppBarColor: const Color(0xFFE0E0E0),
@@ -58,7 +48,7 @@ ThemeData light = ThemeData(
     ),
     navigationBarTheme: NavigationBarThemeData(
         backgroundColor: const Color(0xFFF0F2F5),
-        indicatorColor: const Color(0xFF00B591),
+        indicatorColor: const Color(0xFF098358),
         iconTheme: MaterialStateProperty.all(const IconThemeData(
           color: Color(0xFF050505),
         )),
@@ -76,7 +66,8 @@ ThemeData dark = ThemeData(
     primaryColor: const Color(0xFF1F242A),
     scaffoldBackgroundColor: const Color(0xFF1F242A),
     colorScheme: const ColorScheme.dark(
-      primary: Color(0xFF73E3A6),
+      primary: Color(0xFF6Bdc9f),
+      onPrimary: Color(0xFF003920),
       onSecondary: Color(0xFF22B0D4),
       secondary: Color(0xFF60B286),
     ),
@@ -92,21 +83,21 @@ ThemeData dark = ThemeData(
       backgroundColor: Color(0xFF1F242A),      
     ),
     inputDecorationTheme: InputDecorationTheme(
-        focusColor: const Color(0xFF73E3A6),
+        focusColor: const Color(0xFF6Bdc9f),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0xFF73E3A6),
+            color: Color(0xFF6Bdc9f),
           ),
           borderRadius: BorderRadius.circular(8.0),
         ),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.grey[850]!,
+              color: Color(0xFF8A938B),
             ),
             borderRadius: BorderRadius.circular(8.0)),
         border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.grey[850]!,
+              color: Color(0xFF8A938B),
             ),
             borderRadius: BorderRadius.circular(8.0))),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -115,7 +106,7 @@ ThemeData dark = ThemeData(
     bottomAppBarColor: const Color(0xFF1F242A),
     navigationBarTheme: NavigationBarThemeData(
         backgroundColor: const Color(0xFF1F242A),//0xFF202122
-        indicatorColor: const Color(0xFF307C54),
+        indicatorColor: const Color(0xFF25644B),
         iconTheme: MaterialStateProperty.all(const IconThemeData(
           color: Color(0xFFE0E3E1),
         )),

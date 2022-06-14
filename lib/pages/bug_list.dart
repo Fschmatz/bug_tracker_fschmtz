@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:bug_tracker_fschmtz/pages/newBug.dart';
-import 'package:bug_tracker_fschmtz/widgets/openBug.dart';
+import 'package:bug_tracker_fschmtz/widgets/bug_tile.dart';
 import 'package:flutter/material.dart';
 
 class BugList extends StatefulWidget {
@@ -48,7 +48,7 @@ class _BugListState extends State<BugList> {
               shrinkWrap: true,
               itemCount: bugList.length,
               itemBuilder: (context, index) {
-                return OpenBug(
+                return BugTile(
                   refreshDoneBugs: refreshHome,
                   key: UniqueKey(),
                   bug: Bug(

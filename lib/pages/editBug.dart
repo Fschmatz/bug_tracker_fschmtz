@@ -17,11 +17,9 @@ class _EditBugState extends State<EditBug> {
   int state = 0;
 
   TextEditingController controllerDescription = TextEditingController();
-  TextEditingController controllerCorrectOutcome =
-  TextEditingController();
+  TextEditingController controllerCorrectOutcome = TextEditingController();
   TextEditingController controllerNote = TextEditingController();
-  TextEditingController controllerApplicationName =
-  TextEditingController();
+  TextEditingController controllerApplicationName = TextEditingController();
 
   bool isSelectedRed = false;
   bool isSelectedOrange = false;
@@ -74,6 +72,20 @@ class _EditBugState extends State<EditBug> {
     final update = await dbBug.update(row);
   }
 
+  void changeBugState() async {
+    final dbBug = BugDao.instance;
+    Map<String, dynamic> row = {
+      BugDao.columnIdBug: widget.bug.idBug,
+      BugDao.columnState: widget.bug.state == 0 ? 1 : 0,
+    };
+    final update = await dbBug.update(row);
+  }
+
+  void deleteBug() async {
+    final dbBug = BugDao.instance;
+    final delete = await dbBug.delete(widget.bug.idBug);
+  }
+
   String checkProblems() {
     String errors = "";
     if (controllerApplicationName.text.isEmpty) {
@@ -92,7 +104,6 @@ class _EditBugState extends State<EditBug> {
     Widget okButton = TextButton(
       child: Text(
         "Ok",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       onPressed: () {
         Navigator.of(context).pop();
@@ -100,16 +111,11 @@ class _EditBugState extends State<EditBug> {
     );
 
     AlertDialog alert = AlertDialog(
-      elevation: 3.0,
       title: Text(
         "Error",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       content: Text(
         checkProblems(),
-        style: TextStyle(
-          fontSize: 18,
-        ),
       ),
       actions: [
         okButton,
@@ -127,23 +133,35 @@ class _EditBugState extends State<EditBug> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("New Bug"),
+          //title: Text("Edit Bug"),
           elevation: 0,
           actions: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-              child: IconButton(
-                icon: Icon(Icons.save_outlined),
-                tooltip: 'Save',
-                onPressed: () {
-                  if (checkProblems().isEmpty) {
-                    _updateBug();
-                    Navigator.of(context).pop();
-                  } else {
-                    showAlertDialogErrors(context);
-                  }
-                },
-              ),
+            IconButton(
+              icon: widget.bug.state == 0
+                  ? Icon(Icons.archive_outlined)
+                  : Icon(Icons.unarchive_outlined),
+              onPressed: () {
+                changeBugState();
+                Navigator.of(context).pop();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.delete_outline_outlined),
+              onPressed: () {
+                deleteBug();
+                Navigator.of(context).pop();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.save_outlined),
+              onPressed: () {
+                if (checkProblems().isEmpty) {
+                  _updateBug();
+                  Navigator.of(context).pop();
+                } else {
+                  showAlertDialogErrors(context);
+                }
+              },
             ),
           ],
         ),
@@ -152,11 +170,10 @@ class _EditBugState extends State<EditBug> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               minLines: 1,
-              maxLines: 5,
+              maxLines: null,
               maxLength: 500,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.name,
               controller: controllerApplicationName,
               decoration: InputDecoration(
                 labelText: "Application Name",
@@ -169,11 +186,10 @@ class _EditBugState extends State<EditBug> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               minLines: 1,
-              maxLines: 5,
+              maxLines: null,
               maxLength: 500,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.name,
               controller: controllerDescription,
               decoration: InputDecoration(
                 labelText: "Description",
@@ -182,16 +198,14 @@ class _EditBugState extends State<EditBug> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               minLines: 1,
-              maxLines: 5,
+              maxLines: null,
               maxLength: 500,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.name,
               controller: controllerCorrectOutcome,
               decoration: InputDecoration(
                 labelText: "Correct Outcome",
@@ -207,63 +221,63 @@ class _EditBugState extends State<EditBug> {
               children: [
                 Container(
                     child: Row(
-                      children: [
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Icon(
-                          Icons.flag_outlined,
-                          color: Theme.of(context).hintColor,
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          "Priority",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Theme.of(context).hintColor,
-                          ),
-                        )
-                      ],
-                    )),
+                  children: [
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.flag_outlined,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "Priority",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).hintColor,
+                      ),
+                    )
+                  ],
+                )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     MaterialButton(
-                      minWidth: 20,
+                      minWidth: 55,
                       height: 35,
                       child: isSelectedRed
                           ? Icon(
-                        Icons.check,
-                        size: 20,
-                        color: Colors.black87,
-                      )
+                              Icons.check,
+                              size: 20,
+                              color: Colors.black87,
+                            )
                           : SizedBox.shrink(),
                       shape: CircleBorder(),
                       elevation: 1,
-                      color: Color(0xFFFF5252),
+                      color: Color(0xFFFC5757),
                       onPressed: () {
                         setState(() {
                           isSelectedRed = true;
                           isSelectedOrange = false;
                           isSelectedYellow = false;
                         });
-                        selectedColor = Color(0xFFFF5252);
+                        selectedColor = Color(0xFFFC5757);
                       },
                     ),
                     const SizedBox(
                       width: 15,
                     ),
                     MaterialButton(
-                      minWidth: 20,
+                      minWidth: 55,
                       height: 35,
                       child: isSelectedOrange
                           ? Icon(
-                        Icons.check,
-                        size: 20,
-                        color: Colors.black87,
-                      )
+                              Icons.check,
+                              size: 20,
+                              color: Colors.black87,
+                            )
                           : SizedBox.shrink(),
                       shape: CircleBorder(),
                       elevation: 1,
@@ -281,14 +295,14 @@ class _EditBugState extends State<EditBug> {
                       width: 15,
                     ),
                     MaterialButton(
-                      minWidth: 20,
+                      minWidth: 55,
                       height: 35,
                       child: isSelectedYellow
                           ? Icon(
-                        Icons.check,
-                        size: 20,
-                        color: Colors.black87,
-                      )
+                              Icons.check,
+                              size: 20,
+                              color: Colors.black87,
+                            )
                           : SizedBox.shrink(),
                       shape: CircleBorder(),
                       elevation: 2,
@@ -311,11 +325,10 @@ class _EditBugState extends State<EditBug> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               minLines: 1,
-              maxLines: 5,
+              maxLines: null,
               maxLength: 2000,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.name,
               controller: controllerNote,
               decoration: InputDecoration(
                 labelText: "Note",

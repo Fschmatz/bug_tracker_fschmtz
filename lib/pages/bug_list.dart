@@ -67,7 +67,8 @@ class _BugListState extends State<BugList> {
             height: 50,
           )
         ]),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: widget.state == 0
+         ? FloatingActionButton(
           onPressed: () {
             Navigator.push(
                 context,
@@ -79,6 +80,7 @@ class _BugListState extends State<BugList> {
             Icons.add_outlined,
           ),
         )
+    : null
 
 
     );

@@ -24,14 +24,13 @@ class _BugTileState extends State<BugTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      minLeadingWidth: 20,
       title: Text(
         widget.bug.description,
       ),
       subtitle: Text(
         widget.bug.applicationName,
       ),
-      leading: Icon(Icons.flag_outlined,
+      trailing: Icon(Icons.flag_outlined,
           size: 25, color: Color(int.parse(widget.bug.color.substring(6, 16)))),
       onTap: () {
         Navigator.push(

@@ -45,7 +45,7 @@ class _EditBugState extends State<EditBug> {
     }
     if (Color(int.parse(widget.bug.color.substring(6, 16)))
         .toString()
-        .compareTo(Color(0xFFFF5252).toString())
+        .compareTo(Color(0xFFFC5757).toString())
         .isEven) {
       isSelectedRed = true;
     }
@@ -109,7 +109,6 @@ class _EditBugState extends State<EditBug> {
         Navigator.of(context).pop();
       },
     );
-
     AlertDialog alert = AlertDialog(
       title: Text(
         "Error",
@@ -133,22 +132,20 @@ class _EditBugState extends State<EditBug> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          //title: Text("Edit Bug"),
-          elevation: 0,
           actions: [
+            IconButton(
+              icon: Icon(Icons.delete_outline_outlined),
+              onPressed: () {
+                deleteBug();
+                Navigator.of(context).pop();
+              },
+            ),
             IconButton(
               icon: widget.bug.state == 0
                   ? Icon(Icons.archive_outlined)
                   : Icon(Icons.unarchive_outlined),
               onPressed: () {
                 changeBugState();
-                Navigator.of(context).pop();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.delete_outline_outlined),
-              onPressed: () {
-                deleteBug();
                 Navigator.of(context).pop();
               },
             ),

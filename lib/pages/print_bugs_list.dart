@@ -1,6 +1,6 @@
-import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../db/bugDao.dart';
 
 class PrintBugsList extends StatefulWidget {
   PrintBugsList({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class PrintBugsList extends StatefulWidget {
 
 class _PrintBugsListState extends State<PrintBugsList> {
   List<Map<String, dynamic>> playlists = [];
-  final dbNotes = BugDao.instance;
+  final db = BugDao.instance;
   bool loading = true;
   String formattedList = '';
 
@@ -22,19 +22,14 @@ class _PrintBugsListState extends State<PrintBugsList> {
   }
 
   void getNotes() async {
-    List<Map<String, dynamic>> _listNotes = [];
-       // await dbNotes.queryAllRowsDescArchive(0);
-    List<Map<String, dynamic>> _listArchive = [];
-        //await dbNotes.queryAllRowsDescArchive(1);
+    List<Map<String, dynamic>> _list = await db.queryAllRows();
 
-
-    for (int i = 0; i < _listNotes.length; i++) {
-      if (_listNotes[i]['text'].toString().isNotEmpty) {
-        formattedList += "\n• " + _listNotes[i]['title'] + "\n";
-        formattedList += _listNotes[i]['text'] + "\n";
-      } else {
-        formattedList += "\n• " + _listNotes[i]['title'] + "\n";
-      }
+    for (int i = 0; i < _list.length; i++) {
+        formattedList += _list[i]['applicationName'] + "\n";
+        formattedList += _list[i]['description']+ "\n";
+        formattedList += _list[i]['correctOutcome'] + "\n";
+        formattedList += _list[i]['note'] + "\n";
+        formattedList += " \n";
     }
 
     setState(() {
@@ -46,7 +41,7 @@ class _PrintBugsListState extends State<PrintBugsList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Print Notes'),
+        title: const Text('Print'),
         actions: [
           TextButton(
             child: const Text(

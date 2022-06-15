@@ -3,6 +3,8 @@ import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../util/utils_functions.dart';
+
 class EditBug extends StatefulWidget {
   @override
   _EditBugState createState() => _EditBugState();
@@ -36,7 +38,7 @@ class _EditBugState extends State<EditBug> {
     controllerNote.text = widget.bug.note!;
     controllerApplicationName.text = widget.bug.applicationName;
     state = widget.bug.state;
-    selectedColor = Color(int.parse(widget.bug.color.substring(6, 16)));
+    selectedColor = parseColorFromDb(widget.bug.color);
     if (Color(int.parse(widget.bug.color.substring(6, 16)))
         .toString()
         .compareTo(Color(0xFFFFD600).toString())

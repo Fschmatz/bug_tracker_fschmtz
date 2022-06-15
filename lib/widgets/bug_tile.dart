@@ -1,5 +1,6 @@
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/pages/editBug.dart';
+import 'package:bug_tracker_fschmtz/util/utils_functions.dart';
 import 'package:flutter/material.dart';
 
 class BugTile extends StatefulWidget {
@@ -26,12 +27,13 @@ class _BugTileState extends State<BugTile> {
     return ListTile(
       title: Text(
         widget.bug.description,
+        maxLines: 3,
       ),
       subtitle: Text(
         widget.bug.applicationName,
       ),
       trailing: Icon(Icons.flag_outlined,
-          size: 25, color: Color(int.parse(widget.bug.color.substring(6, 16)))),
+          size: 25, color: parseColorFromDb(widget.bug.color)),
       onTap: () {
         Navigator.push(
             context,

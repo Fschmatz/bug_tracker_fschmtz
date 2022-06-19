@@ -2,41 +2,39 @@ import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class NewBug extends StatefulWidget {
+class SaveBug extends StatefulWidget {
   @override
-  _NewBugState createState() => _NewBugState();
+  _SaveBugState createState() => _SaveBugState();
 }
 
-class _NewBugState extends State<NewBug> {
+class _SaveBugState extends State<SaveBug> {
   final dbBug = BugDao.instance;
-  Color selectedColor = Color(0xFFFFD600);
-
-  TextEditingController controllerDescription = TextEditingController();
-  TextEditingController controllerCorrectOutcome = TextEditingController();
-  TextEditingController controllerNote = TextEditingController();
-  TextEditingController controllerApplicationName = TextEditingController();
-
-  bool isSelectedRed = false;
-  bool isSelectedOrange = false;
-  bool isSelectedYellow = false;
+  int priorityValue = 0;
+  List<Color> priorityColors = [
+    Color(0xFFFFCC00),
+    Color(0xFFFF7134),
+    Color(0xFFFD3C3C),
+  ];
   Icon iconSelected = Icon(
     Icons.done,
     size: 20,
+    color: Colors.black87,
   );
 
-  @override
-  void initState() {
-    isSelectedYellow = true;
-    super.initState();
-  }
+  TextEditingController controllerDescription = TextEditingController();
+  TextEditingController controllerCorrectOutcome = TextEditingController();
+  TextEditingController controllerApplicationName = TextEditingController();
+  TextEditingController controllerNote = TextEditingController();
+  TextEditingController controllerHowWasSolved = TextEditingController();
 
   void _saveBug() async {
     Map<String, dynamic> row = {
       BugDao.columnDescription: controllerDescription.text,
       BugDao.columnApplicationName: controllerApplicationName.text,
       BugDao.columnState: 0,
-      BugDao.columnColor: selectedColor.toString(),
+      BugDao.columnPriority: priorityValue,
       BugDao.columnCorrectOutcome: controllerCorrectOutcome.text,
+      BugDao.columnHowWasSolved: controllerHowWasSolved.text,
       BugDao.columnNote: controllerNote.text,
     };
     final id = await dbBug.insert(row);
@@ -57,32 +55,35 @@ class _NewBugState extends State<NewBug> {
   }
 
   showAlertDialogErrors(BuildContext context) {
-    Widget okButton = TextButton(
-      child: Text(
-        "Ok",
-      ),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: Text(
-        "Error",
-      ),
-      content: Text(
-        checkProblems(),
-      ),
-      actions: [
-        okButton,
-      ],
-    );
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return AlertDialog(
+          title: Text(
+            "Error",
+          ),
+          content: Text(
+            checkProblems(),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                "Ok",
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
       },
     );
+  }
+
+  void changePriority(int priority){
+    setState(() {
+      priorityValue = priority;
+    });
   }
 
   @override
@@ -186,23 +187,14 @@ class _NewBugState extends State<NewBug> {
                     MaterialButton(
                       minWidth: 55,
                       height: 35,
-                      child: isSelectedRed
-                          ? Icon(
-                              Icons.check,
-                              size: 20,
-                              color: Colors.black87,
-                            )
-                          : SizedBox.shrink(),
+                      child: priorityValue == 2
+                          ? iconSelected
+                          : null,
                       shape: CircleBorder(),
-                      elevation: 1,
-                      color: Color(0xFFFC5757),
+                      elevation: 0,
+                      color: priorityColors[2],
                       onPressed: () {
-                        setState(() {
-                          isSelectedRed = true;
-                          isSelectedOrange = false;
-                          isSelectedYellow = false;
-                        });
-                        selectedColor = Color(0xFFFC5757);
+                        changePriority(2);
                       },
                     ),
                     const SizedBox(
@@ -211,23 +203,14 @@ class _NewBugState extends State<NewBug> {
                     MaterialButton(
                       minWidth: 55,
                       height: 35,
-                      child: isSelectedOrange
-                          ? Icon(
-                              Icons.check,
-                              size: 20,
-                              color: Colors.black87,
-                            )
-                          : SizedBox.shrink(),
+                      child: priorityValue == 1
+                          ? iconSelected
+                          : null,
                       shape: CircleBorder(),
-                      elevation: 1,
-                      color: Color(0xFFFF6E40),
+                      elevation: 0,
+                      color: priorityColors[1],
                       onPressed: () {
-                        setState(() {
-                          isSelectedOrange = true;
-                          isSelectedRed = false;
-                          isSelectedYellow = false;
-                        });
-                        selectedColor = Color(0xFFFF6E40);
+                        changePriority(1);
                       },
                     ),
                     const SizedBox(
@@ -236,23 +219,14 @@ class _NewBugState extends State<NewBug> {
                     MaterialButton(
                       minWidth: 55,
                       height: 35,
-                      child: isSelectedYellow
-                          ? Icon(
-                              Icons.check,
-                              size: 20,
-                              color: Colors.black87,
-                            )
-                          : SizedBox.shrink(),
+                      child: priorityValue == 0
+                          ? iconSelected
+                          : null,
                       shape: CircleBorder(),
-                      elevation: 2,
-                      color: Color(0xFFFFD600),
+                      elevation: 0,
+                      color: priorityColors[0],
                       onPressed: () {
-                        setState(() {
-                          isSelectedYellow = true;
-                          isSelectedRed = false;
-                          isSelectedOrange = false;
-                        });
-                        selectedColor = Color(0xFFFFD600);
+                        changePriority(0);
                       },
                     ),
                   ],
@@ -262,6 +236,21 @@ class _NewBugState extends State<NewBug> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: TextField(
+              minLines: 1,
+              maxLines: null,
+              maxLength: 2000,
+              maxLengthEnforcement: MaxLengthEnforcement.enforced,
+              textCapitalization: TextCapitalization.sentences,
+              controller: controllerHowWasSolved,
+              decoration: InputDecoration(
+                labelText: "How was solved",
+                counterText: "",
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: TextField(
               minLines: 1,
               maxLines: null,

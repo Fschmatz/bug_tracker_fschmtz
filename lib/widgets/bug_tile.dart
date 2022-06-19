@@ -1,5 +1,5 @@
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
-import 'package:bug_tracker_fschmtz/pages/editBug.dart';
+import 'package:bug_tracker_fschmtz/pages/edit_bug.dart';
 import 'package:bug_tracker_fschmtz/util/utils_functions.dart';
 import 'package:flutter/material.dart';
 
@@ -33,15 +33,13 @@ class _BugTileState extends State<BugTile> {
         widget.bug.applicationName,
       ),
       trailing: Icon(Icons.flag_outlined,
-          size: 25, color: parseColorFromDb(widget.bug.color)),
+          size: 25, color: widget.bug.getBugPriorityColor()),
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
               builder: (BuildContext context) => EditBug(bug: widget.bug),
-            ))
-            .then(
-                (v) => widget.refreshHome());
+            )).then((v) => widget.refreshHome());
       },
     );
   }

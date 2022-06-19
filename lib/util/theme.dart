@@ -10,7 +10,7 @@ ThemeData light = ThemeData(
     colorScheme: const ColorScheme.light(
       primary: Color(0xFF0B57D0),
       onPrimary: Color(0xFFFFFFFF),
-      onSecondary: Color(0xFF0B57D0),
+      onSecondary: Color(0xFFFFFFFF),
       secondary: Color(0xFF0B57D0),
     ),
     appBarTheme: const AppBarTheme(
@@ -34,12 +34,12 @@ ThemeData light = ThemeData(
         ),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Color(0xFF707679),
+              color: Color(0xFF808689),
             ),
             borderRadius: BorderRadius.circular(8.0)),
         border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Color(0xFF707679),
+              color: Color(0xFF808689),
             ),
             borderRadius: BorderRadius.circular(8.0))),
     bottomAppBarColor: const Color(0xFFF0F3F8),
@@ -66,9 +66,9 @@ ThemeData dark = ThemeData(
     primaryColor: const Color(0xFF1F1F1F),
     scaffoldBackgroundColor: const Color(0xFF1F1F1F),
     colorScheme: const ColorScheme.dark(
-      primary: Color(0xFFA8C7FA),
+      primary: Color(0xFFA4C8FF),
       onPrimary: Color(0xFFC2E7FF),
-      onSecondary: Color(0xFF2284D4),
+      onSecondary: Color(0xFF292C30),
       secondary: Color(0xFF6089B2),
     ),
     appBarTheme: const AppBarTheme(
@@ -86,21 +86,21 @@ ThemeData dark = ThemeData(
       backgroundColor: Color(0xFF1B6098),
     ),
     inputDecorationTheme: InputDecorationTheme(
-        focusColor: const Color(0xFFA8C7FA),
+        focusColor: const Color(0xFFA4C8FF),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0xFFA8C7FA),
+            color: Color(0xFFA4C8FF),
           ),
           borderRadius: BorderRadius.circular(8.0),
         ),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Color(0xFF8A9093),
+              color: Color(0xFF7A8083),
             ),
             borderRadius: BorderRadius.circular(8.0)),
         border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Color(0xFF8A9093),
+              color: Color(0xFF7A8083),
             ),
             borderRadius: BorderRadius.circular(8.0))),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -109,7 +109,7 @@ ThemeData dark = ThemeData(
     bottomAppBarColor: const Color(0xFF292C30),
     navigationBarTheme: NavigationBarThemeData(
         backgroundColor: const Color(0xFF292C30),//0xFF202122
-        indicatorColor: const Color(0xFF004A77),
+        indicatorColor: const Color(0xFF014269),
         iconTheme: MaterialStateProperty.all(const IconThemeData(
           color: Color(0xFFE3E3E3),
         )),

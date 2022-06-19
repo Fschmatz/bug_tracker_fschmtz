@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'package:bug_tracker_fschmtz/classes/bug.dart';
 import 'package:bug_tracker_fschmtz/db/bugDao.dart';
-import 'package:bug_tracker_fschmtz/pages/newBug.dart';
+import 'package:bug_tracker_fschmtz/pages/save_bug.dart';
 import 'package:bug_tracker_fschmtz/widgets/bug_tile.dart';
 import 'package:flutter/material.dart';
 
 class BugList extends StatefulWidget {
-
   int state;
 
   BugList({Key? key, required this.state}) : super(key: key);
@@ -40,7 +39,6 @@ class _BugListState extends State<BugList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: ListView(physics: AlwaysScrollableScrollPhysics(), children: [
           ListView.separated(
               physics: NeverScrollableScrollPhysics(),
@@ -56,8 +54,9 @@ class _BugListState extends State<BugList> {
                     description: bugList[index]['description'],
                     applicationName: bugList[index]['applicationName'],
                     state: bugList[index]['state'],
-                    color: bugList[index]['color'],
+                    priority: bugList[index]['priority'],
                     correctOutcome: bugList[index]['correctOutcome'],
+                    howWasSolved: bugList[index]['howWasSolved'],
                     note: bugList[index]['note'],
                   ),
                   refreshHome: refreshHome,
@@ -68,20 +67,18 @@ class _BugListState extends State<BugList> {
           )
         ]),
         floatingActionButton: widget.state == 0
-         ? FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => NewBug(),
-                )).then((value) => getAllBugsNotDone());
-          },
-          child: const Icon(
-            Icons.add_outlined,
-          ),
-        )
-    : null
-
-
-    );
-  }}
+            ? FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => SaveBug(),
+                      )).then((value) => getAllBugsNotDone());
+                },
+                child: const Icon(
+                  Icons.add_outlined,
+                ),
+              )
+            : null);
+  }
+}

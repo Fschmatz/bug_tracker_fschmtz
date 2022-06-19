@@ -1,14 +1,18 @@
 class AppDetails {
-  static String appVersion = "2.0.0";
+  static String appVersion = "2.0.1";
   static String appName = "BugTracker Fschmatz";
   static String repositoryLink =
       "https://github.com/Fschmatz/bug_tracker_fschmtz";
 
   static String changelogCurrent = '''  
-2.0.0
-- App remake
-- Flutter 3
+2.0.1
+- New UI
+- Added how was solved textfield
+- Added note textfield
+- System theme
+- Internal logic changes
 - Bug fixes
+- Flutter 3
 ''';
 
   static String changelogsOld = '''

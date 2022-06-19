@@ -3,8 +3,6 @@ import 'package:bug_tracker_fschmtz/db/bugDao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../util/utils_functions.dart';
-
 class EditBug extends StatefulWidget {
   @override
   _EditBugState createState() => _EditBugState();
@@ -15,48 +13,34 @@ class EditBug extends StatefulWidget {
 }
 
 class _EditBugState extends State<EditBug> {
-  Color selectedColor = Color(0xFFFFD600);
-  int state = 0;
 
-  TextEditingController controllerDescription = TextEditingController();
-  TextEditingController controllerCorrectOutcome = TextEditingController();
-  TextEditingController controllerNote = TextEditingController();
-  TextEditingController controllerApplicationName = TextEditingController();
-
-  bool isSelectedRed = false;
-  bool isSelectedOrange = false;
-  bool isSelectedYellow = false;
+  int priorityValue = 0;
+  List<Color> priorityColors = [
+    Color(0xFFFFCC00),
+    Color(0xFFFF7134),
+    Color(0xFFFD3C3C),
+  ];
   Icon iconSelected = Icon(
     Icons.done,
     size: 20,
+    color: Colors.black87,
   );
+
+  TextEditingController controllerDescription = TextEditingController();
+  TextEditingController controllerCorrectOutcome = TextEditingController();
+  TextEditingController controllerApplicationName = TextEditingController();
+  TextEditingController controllerNote = TextEditingController();
+  TextEditingController controllerHowWasSolved = TextEditingController();
+
 
   @override
   void initState() {
+    controllerApplicationName.text = widget.bug.applicationName;
     controllerDescription.text = widget.bug.description;
     controllerCorrectOutcome.text = widget.bug.correctOutcome;
+    controllerHowWasSolved.text = widget.bug.howWasSolved!;
     controllerNote.text = widget.bug.note!;
-    controllerApplicationName.text = widget.bug.applicationName;
-    state = widget.bug.state;
-    selectedColor = parseColorFromDb(widget.bug.color);
-    if (Color(int.parse(widget.bug.color.substring(6, 16)))
-        .toString()
-        .compareTo(Color(0xFFFFD600).toString())
-        .isEven) {
-      isSelectedYellow = true;
-    }
-    if (Color(int.parse(widget.bug.color.substring(6, 16)))
-        .toString()
-        .compareTo(Color(0xFFFC5757).toString())
-        .isEven) {
-      isSelectedRed = true;
-    }
-    if (Color(int.parse(widget.bug.color.substring(6, 16)))
-        .toString()
-        .compareTo(Color(0xFFFF6E40).toString())
-        .isEven) {
-      isSelectedOrange = true;
-    }
+    changePriority(widget.bug.priority);
     super.initState();
   }
 
@@ -66,9 +50,10 @@ class _EditBugState extends State<EditBug> {
       BugDao.columnIdBug: widget.bug.idBug,
       BugDao.columnDescription: controllerDescription.text,
       BugDao.columnApplicationName: controllerApplicationName.text,
-      BugDao.columnState: state,
-      BugDao.columnColor: selectedColor.toString(),
+      BugDao.columnState: widget.bug.state,
+      BugDao.columnPriority: priorityValue,
       BugDao.columnCorrectOutcome: controllerCorrectOutcome.text,
+      BugDao.columnHowWasSolved: controllerHowWasSolved.text,
       BugDao.columnNote: controllerNote.text,
     };
     final update = await dbBug.update(row);
@@ -102,33 +87,66 @@ class _EditBugState extends State<EditBug> {
     return errors;
   }
 
+  void changePriority(int priority){
+    setState(() {
+      priorityValue = priority;
+    });
+  }
+
   showAlertDialogErrors(BuildContext context) {
-    Widget okButton = TextButton(
-      child: Text(
-        "Ok",
-      ),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    AlertDialog alert = AlertDialog(
-      title: Text(
-        "Error",
-      ),
-      content: Text(
-        checkProblems(),
-      ),
-      actions: [
-        okButton,
-      ],
-    );
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return AlertDialog(
+          title: Text(
+            "Error",
+          ),
+          content: Text(
+            checkProblems(),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                "Ok",
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
       },
     );
   }
+
+  showAlertDialogOkDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Confirm",
+          ),
+          content: const Text(
+            "Delete ?",
+          ),
+          actions: [
+            TextButton(
+              child: const Text(
+                "Yes",
+              ),
+              onPressed: () {
+                deleteBug();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,8 +156,7 @@ class _EditBugState extends State<EditBug> {
             IconButton(
               icon: Icon(Icons.delete_outline_outlined),
               onPressed: () {
-                deleteBug();
-                Navigator.of(context).pop();
+                showAlertDialogOkDelete(context);
               },
             ),
             IconButton(
@@ -220,49 +237,40 @@ class _EditBugState extends State<EditBug> {
               children: [
                 Container(
                     child: Row(
-                  children: [
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Icon(
-                      Icons.flag_outlined,
-                      color: Theme.of(context).hintColor,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      "Priority",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context).hintColor,
-                      ),
-                    )
-                  ],
-                )),
+                      children: [
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Icon(
+                          Icons.flag_outlined,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Priority",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).hintColor,
+                          ),
+                        )
+                      ],
+                    )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     MaterialButton(
                       minWidth: 55,
                       height: 35,
-                      child: isSelectedRed
-                          ? Icon(
-                              Icons.check,
-                              size: 20,
-                              color: Colors.black87,
-                            )
-                          : SizedBox.shrink(),
+                      child: priorityValue == 2
+                          ? iconSelected
+                          : null,
                       shape: CircleBorder(),
-                      elevation: 1,
-                      color: Color(0xFFFC5757),
+                      elevation: 0,
+                      color: priorityColors[2],
                       onPressed: () {
-                        setState(() {
-                          isSelectedRed = true;
-                          isSelectedOrange = false;
-                          isSelectedYellow = false;
-                        });
-                        selectedColor = Color(0xFFFC5757);
+                        changePriority(2);
                       },
                     ),
                     const SizedBox(
@@ -271,23 +279,14 @@ class _EditBugState extends State<EditBug> {
                     MaterialButton(
                       minWidth: 55,
                       height: 35,
-                      child: isSelectedOrange
-                          ? Icon(
-                              Icons.check,
-                              size: 20,
-                              color: Colors.black87,
-                            )
-                          : SizedBox.shrink(),
+                      child: priorityValue == 1
+                          ? iconSelected
+                          : null,
                       shape: CircleBorder(),
-                      elevation: 1,
-                      color: Color(0xFFFF6E40),
+                      elevation: 0,
+                      color: priorityColors[1],
                       onPressed: () {
-                        setState(() {
-                          isSelectedOrange = true;
-                          isSelectedRed = false;
-                          isSelectedYellow = false;
-                        });
-                        selectedColor = Color(0xFFFF6E40);
+                        changePriority(1);
                       },
                     ),
                     const SizedBox(
@@ -296,23 +295,14 @@ class _EditBugState extends State<EditBug> {
                     MaterialButton(
                       minWidth: 55,
                       height: 35,
-                      child: isSelectedYellow
-                          ? Icon(
-                              Icons.check,
-                              size: 20,
-                              color: Colors.black87,
-                            )
-                          : SizedBox.shrink(),
+                      child: priorityValue == 0
+                          ? iconSelected
+                          : null,
                       shape: CircleBorder(),
-                      elevation: 2,
-                      color: Color(0xFFFFD600),
+                      elevation: 0,
+                      color: priorityColors[0],
                       onPressed: () {
-                        setState(() {
-                          isSelectedYellow = true;
-                          isSelectedRed = false;
-                          isSelectedOrange = false;
-                        });
-                        selectedColor = Color(0xFFFFD600);
+                        changePriority(0);
                       },
                     ),
                   ],
@@ -322,6 +312,21 @@ class _EditBugState extends State<EditBug> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: TextField(
+              minLines: 1,
+              maxLines: null,
+              maxLength: 2000,
+              maxLengthEnforcement: MaxLengthEnforcement.enforced,
+              textCapitalization: TextCapitalization.sentences,
+              controller: controllerHowWasSolved,
+              decoration: InputDecoration(
+                labelText: "How was solved",
+                counterText: "",
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: TextField(
               minLines: 1,
               maxLines: null,

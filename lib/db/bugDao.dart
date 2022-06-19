@@ -10,11 +10,12 @@ class BugDao {
 
   static final table = 'bug';
   static final columnIdBug = 'idBug';
-  static final columnDescription = 'description';
   static final columnApplicationName = 'applicationName';
-  static final columnState = 'state'; // 0 open - 1 closed
-  static final columnColor = 'color';
+  static final columnDescription = 'description';
   static final columnCorrectOutcome = 'correctOutcome';
+  static final columnState = 'state'; // 0 open - 1 closed
+  static final columnPriority = 'priority'; // 0 yellow - 1 orange - 2 red
+  static final columnHowWasSolved = 'howWasSolved';
   static final columnNote = 'note';
 
   static Database? _database;
@@ -39,8 +40,9 @@ class BugDao {
             $columnDescription TEXT NOT NULL,
             $columnApplicationName TEXT NOT NULL,
             $columnState INTEGER NOT NULL,
-            $columnColor TEXT NOT NULL,  
-            $columnCorrectOutcome TEXT NOT NULL,         
+            $columnPriority INTEGER NOT NULL,  
+            $columnCorrectOutcome TEXT NOT NULL,    
+            $columnHowWasSolved TEXT,     
             $columnNote TEXT
           )
           ''');

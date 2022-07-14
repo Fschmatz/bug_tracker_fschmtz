@@ -25,11 +25,16 @@ class _PrintBugsListState extends State<PrintBugsList> {
     List<Map<String, dynamic>> _list = await db.queryAllRows();
 
     for (int i = 0; i < _list.length; i++) {
-        formattedList += _list[i]['applicationName'] + "\n";
-        formattedList += _list[i]['description']+ "\n";
-        formattedList += _list[i]['correctOutcome'] + "\n";
+      formattedList += _list[i]['applicationName'] + "\n";
+      formattedList += _list[i]['description']+ "\n";
+      formattedList += _list[i]['correctOutcome'] + "\n";
+      if(_list[i]['howWasSolved'].toString().isNotEmpty){
+        formattedList += _list[i]['howWasSolved']+ "\n";
+      }
+      if(_list[i]['note'].toString().isNotEmpty){
         formattedList += _list[i]['note'] + "\n";
-        formattedList += " \n";
+      }
+      formattedList += "\n*******************\n\n";
     }
 
     setState(() {
@@ -60,11 +65,12 @@ class _PrintBugsListState extends State<PrintBugsList> {
           loading
               ? const SizedBox.shrink()
               : SelectableText(
-                  formattedList,
-                  style: const TextStyle(fontSize: 16),
-                ),
+            formattedList,
+            style: const TextStyle(fontSize: 16),
+          ),
         ],
       ),
     );
   }
 }
+

@@ -26,6 +26,9 @@ class _SaveBugState extends State<SaveBug> {
   TextEditingController controllerApplicationName = TextEditingController();
   TextEditingController controllerNote = TextEditingController();
   TextEditingController controllerHowWasSolved = TextEditingController();
+  bool _validApplicationName = true;
+  bool _validDescription = true;
+  bool _validOutcome = true;
 
   void _saveBug() async {
     Map<String, dynamic> row = {
@@ -40,44 +43,21 @@ class _SaveBugState extends State<SaveBug> {
     final id = await dbBug.insert(row);
   }
 
-  String checkProblems() {
-    String errors = "";
+  bool validateTextFields() {
+    bool ok = true;
     if (controllerApplicationName.text.isEmpty) {
-      errors += "Insert Application Name\n";
+      ok = false;
+      _validApplicationName = false;
     }
     if (controllerDescription.text.isEmpty) {
-      errors += "Insert Description\n";
+      ok = false;
+      _validDescription = false;
     }
     if (controllerCorrectOutcome.text.isEmpty) {
-      errors += "Insert Correct Outcome\n";
+      ok = false;
+      _validOutcome = false;
     }
-    return errors;
-  }
-
-  showAlertDialogErrors(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Error",
-          ),
-          content: Text(
-            checkProblems(),
-          ),
-          actions: [
-            TextButton(
-              child: Text(
-                "Ok",
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      },
-    );
+    return ok;
   }
 
   void changePriority(int priority){
@@ -95,11 +75,11 @@ class _SaveBugState extends State<SaveBug> {
             IconButton(
               icon: Icon(Icons.save_outlined),
               onPressed: () {
-                if (checkProblems().isEmpty) {
+                if (validateTextFields()) {
                   _saveBug();
                   Navigator.of(context).pop();
                 } else {
-                  showAlertDialogErrors(context);
+                  setState(() {});
                 }
               },
             ),
@@ -119,6 +99,7 @@ class _SaveBugState extends State<SaveBug> {
                 labelText: "Application Name",
                 helperText: "* Required",
                 counterText: "",
+                errorText: (_validApplicationName) ? null : "Application Name is empty",
               ),
             ),
           ),
@@ -135,6 +116,7 @@ class _SaveBugState extends State<SaveBug> {
                 labelText: "Description",
                 helperText: "* Required",
                 counterText: "",
+                errorText: (_validDescription) ? null : "Description is empty",
               ),
             ),
           ),
@@ -151,6 +133,7 @@ class _SaveBugState extends State<SaveBug> {
                 labelText: "Correct Outcome",
                 helperText: "* Required",
                 counterText: "",
+                errorText: (_validOutcome) ? null : "Correct Outcome is empty",
               ),
             ),
           ),

@@ -31,6 +31,9 @@ class _EditBugState extends State<EditBug> {
   TextEditingController controllerApplicationName = TextEditingController();
   TextEditingController controllerNote = TextEditingController();
   TextEditingController controllerHowWasSolved = TextEditingController();
+  bool _validApplicationName = true;
+  bool _validDescription = true;
+  bool _validOutcome = true;
 
 
   @override
@@ -73,18 +76,21 @@ class _EditBugState extends State<EditBug> {
     final delete = await dbBug.delete(widget.bug.idBug);
   }
 
-  String checkProblems() {
-    String errors = "";
+  bool validateTextFields() {
+    bool ok = true;
     if (controllerApplicationName.text.isEmpty) {
-      errors += "Insert Application Name\n";
+      ok = false;
+      _validApplicationName = false;
     }
     if (controllerDescription.text.isEmpty) {
-      errors += "Insert Description\n";
+      ok = false;
+      _validDescription = false;
     }
     if (controllerCorrectOutcome.text.isEmpty) {
-      errors += "Insert Correct Outcome\n";
+      ok = false;
+      _validOutcome = false;
     }
-    return errors;
+    return ok;
   }
 
   void changePriority(int priority){
@@ -93,31 +99,6 @@ class _EditBugState extends State<EditBug> {
     });
   }
 
-  showAlertDialogErrors(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Error",
-          ),
-          content: Text(
-            checkProblems(),
-          ),
-          actions: [
-            TextButton(
-              child: Text(
-                "Ok",
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
 
   showAlertDialogOkDelete(BuildContext context) {
     showDialog(
@@ -171,11 +152,11 @@ class _EditBugState extends State<EditBug> {
             IconButton(
               icon: Icon(Icons.save_outlined),
               onPressed: () {
-                if (checkProblems().isEmpty) {
+                if (validateTextFields()) {
                   _updateBug();
                   Navigator.of(context).pop();
                 } else {
-                  showAlertDialogErrors(context);
+                  setState(() {});
                 }
               },
             ),
@@ -195,6 +176,7 @@ class _EditBugState extends State<EditBug> {
                 labelText: "Application Name",
                 helperText: "* Required",
                 counterText: "",
+                errorText: (_validApplicationName) ? null : "Application Name is empty",
               ),
             ),
           ),
@@ -211,6 +193,7 @@ class _EditBugState extends State<EditBug> {
                 labelText: "Description",
                 helperText: "* Required",
                 counterText: "",
+                errorText: (_validDescription) ? null : "Description is empty",
               ),
             ),
           ),
@@ -227,6 +210,7 @@ class _EditBugState extends State<EditBug> {
                 labelText: "Correct Outcome",
                 helperText: "* Required",
                 counterText: "",
+                errorText: (_validOutcome) ? null : "Correct Outcome is empty",
               ),
             ),
           ),
